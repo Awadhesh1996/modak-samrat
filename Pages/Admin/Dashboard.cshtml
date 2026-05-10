@@ -1,0 +1,37 @@
+@page
+@model DashboardModel
+
+<h2>Admin Dashboard 🍡</h2>
+
+<a href="/Admin/AddModak">➕ Add New Modak</a>
+
+<br><br>
+
+<table border="1" cellpadding="10">
+    <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var modak in Model.Modaks)
+    {
+        <tr>
+            <td>@modak.Name</td>
+            <td>₹@modak.Price</td>
+            <td>
+                <a href="/Admin/EditModak?id=@modak.Id">Edit</a> |
+                <form method="post" asp-page-handler="Delete" style="display:inline;">
+                    <input type="hidden" name="id" value="@modak.Id" />
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>
+
+<br>
+
+<form method="post" asp-page-handler="Logout">
+    <button type="submit">Logout</button>
+</form>

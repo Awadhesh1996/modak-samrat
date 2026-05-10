@@ -1,0 +1,49 @@
+@page
+@model AddModakModel
+
+<h2>Add Modak 🍡</h2>
+
+<form method="post" enctype="multipart/form-data">
+    <input type="text" name="Name" placeholder="Name" required /><br><br>
+
+    <input type="number" name="Price" placeholder="Price" required /><br><br>
+
+    <textarea name="Description" placeholder="Description"></textarea><br><br>
+
+   <input type="file" id="imageInput" name="Images" multiple /><br><br>
+
+    <div id="previewContainer" style="display:flex; gap:10px; flex-wrap:wrap;"></div>
+
+    <button type="submit">Save</button>
+</form>
+
+
+<script id="p7fqaz">
+    const input = document.getElementById("imageInput");
+    const preview = document.getElementById("previewContainer");
+
+    input.addEventListener("change", function () {
+        preview.innerHTML = ""; // clear old preview
+
+        const files = input.files;
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+
+            if (file && file.type.startsWith("image/")) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    const img = document.createElement("img");
+                    img.src = e.target.result;
+                    img.width = 120;
+                    img.style.border = "1px solid #ccc";
+                    img.style.padding = "5px";
+                    preview.appendChild(img);
+                };
+
+                reader.readAsDataURL(file);
+            }
+        }
+    });
+</script>

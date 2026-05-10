@@ -1,0 +1,18 @@
+@page
+@model RegisterModel
+
+<h2>Admin Registration</h2>
+
+<form method="post">
+    <input type="text" name="Name" placeholder="Full Name" required /><br><br>
+
+    <input type="text" name="Phone" placeholder="Phone Number" /><br><br>
+
+    <input type="text" name="Username" placeholder="Username" required /><br><br>
+
+    <input type="password" name="Password" placeholder="Password" required /><br><br>
+
+    <button type="submit">Register</button>
+</form>
+
+<p>@Model.Message</p>

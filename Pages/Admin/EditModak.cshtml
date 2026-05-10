@@ -1,0 +1,60 @@
+@page
+@model EditModakModel
+
+<h2>Edit Modak ✏️</h2>
+
+<form method="post" enctype="multipart/form-data">
+    <input type="hidden" name="Id" value="@Model.Modak.Id" />
+
+    <input type="text" name="Name" value="@Model.Modak.Name" /><br><br>
+
+    <input type="number" name="Price" value="@Model.Modak.Price" /><br><br>
+
+    <textarea name="Description">@Model.Modak.Description</textarea><br><br>
+
+    <p>Existing Images:</p>
+    @foreach (var img in Model.Modak.Images)
+    {
+        <img src="@img" width="100" />
+    }
+
+    <br><br>
+
+    <p>Upload New Images:</p>
+    <input type="file" id="imageInput" name="Images" multiple /><br><br>
+
+    <div id="previewContainer" style="display:flex; gap:10px; flex-wrap:wrap;"></div>
+
+    <button type="submit">Update</button>
+</form>
+
+
+<script id="3hfl6m">
+    const input = document.getElementById("imageInput");
+    const preview = document.getElementById("previewContainer");
+
+    input.addEventListener("change", function () {
+        preview.innerHTML = "";
+
+        const files = input.files;
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+
+            if (file && file.type.startsWith("image/")) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    const img = document.createElement("img");
+                    img.src = e.target.result;
+                    img.width = 120;
+                    img.style.border = "1px solid #ccc";
+                    img.style.padding = "5px";
+                    preview.appendChild(img);
+                };
+
+                reader.readAsDataURL(file);
+            }
+        }
+    });
+</script>

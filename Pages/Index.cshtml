@@ -1,0 +1,565 @@
+﻿@page
+@model IndexModel
+
+<div class="main-wrapper">
+
+    <!-- HEADER -->
+    <div class="header">
+
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="logo">🍡 Modak Samrat</div>
+
+            <div>
+                <button onclick="toggleDarkMode()" class="dark-btn">
+                    🌙
+                </button>
+            </div>
+        </div>
+
+        <!-- SEARCH -->
+        <div class="search-box">
+            <input type="text"
+                   id="searchInput"
+                   placeholder="Search Modak..."
+                   onkeyup="searchProducts()">
+        </div>
+
+    </div>
+
+    <!-- CATEGORIES -->
+    <div class="category-scroll">
+
+        <div class="category-btn active">All</div>
+        <div class="category-btn">Chocolate</div>
+        <div class="category-btn">Kesar</div>
+        <div class="category-btn">Dry Fruit</div>
+        <div class="category-btn">Special</div>
+
+    </div>
+
+    <!-- TITLE -->
+    <h4 class="section-title">
+        ✨ Premium Modaks
+    </h4>
+
+    <!-- PRODUCTS -->
+    <div class="products-grid">
+
+        @foreach (var modak in Model.Modaks)
+        {
+            <div class="product-card searchable">
+
+                <!-- IMAGE SLIDER -->
+                <div class="slider" id="slider-@modak.Id">
+
+                    @for (int i = 0; i < modak.Images.Count; i++)
+                    {
+                        <img src="@modak.Images[i]"
+                             class="slide @(i == 0 ? "active" : "")">
+                    }
+
+                    <button class="prev"
+                            onclick="changeSlide(@modak.Id, -1)">
+                        ❮
+                    </button>
+
+                    <button class="next"
+                            onclick="changeSlide(@modak.Id, 1)">
+                        ❯
+                    </button>
+
+                </div>
+
+                <!-- BADGE -->
+                <div class="badge-custom">
+                    M@modak.Id
+                </div>
+
+                <!-- CONTENT -->
+                <div class="product-content">
+
+                    <div class="product-title">
+                        @modak.Name
+                    </div>
+
+                    <div class="price">
+                        ₹@modak.Price
+                    </div>
+
+                    <div class="desc">
+                        @modak.Description
+                    </div>
+
+                    <!-- QTY -->
+                    <div class="qty-box">
+
+                        <button onclick="changeQty(@modak.Id,-1)">
+                            −
+                        </button>
+
+                        <input type="number"
+                               id="qty-@modak.Id"
+                               value="1"
+                               min="1">
+
+                        <button onclick="changeQty(@modak.Id,1)">
+                            +
+                        </button>
+
+                    </div>
+
+                    <!-- BUTTONS -->
+                    <div class="button-group">
+
+                        <button onclick="addToCart('@modak.Name', @modak.Price, @modak.Id)">
+                            Add Cart 🛒
+                        </button>
+
+                        <a href="javascript:void(0)"
+                           onclick="orderWhatsApp('@modak.Name', @modak.Id)"
+                           class="btn-whatsapp">
+
+                            WhatsApp 📱
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+        }
+
+    </div>
+
+</div>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- 🎨 STYLES -->
+
+<style>
+    body{
+    margin:0;
+    background:#f4f6f9;
+    font-family:'Segoe UI',sans-serif;
+}
+
+/* HEADER */
+
+.header{
+    background:linear-gradient(135deg,#1e293b,#0f172a);
+    padding:20px;
+    color:white;
+
+    border-bottom-left-radius:25px;
+    border-bottom-right-radius:25px;
+}
+
+.logo{
+    font-size:24px;
+    font-weight:700;
+}
+
+.dark-btn{
+    background:none;
+    border:none;
+    color:white;
+    font-size:20px;
+    cursor:pointer;
+}
+
+/* SEARCH */
+
+.search-box{
+    margin-top:15px;
+}
+
+.search-box input{
+    width:100%;
+    padding:14px;
+
+    border:none;
+    border-radius:14px;
+
+    font-size:15px;
+}
+
+/* CATEGORY */
+
+.category-scroll{
+    overflow-x:auto;
+    white-space:nowrap;
+
+    padding:15px;
+}
+
+.category-scroll::-webkit-scrollbar{
+    display:none;
+}
+
+.category-btn{
+    display:inline-block;
+
+    padding:8px 18px;
+
+    background:#e2e8f0;
+    border-radius:20px;
+
+    margin-right:10px;
+
+    font-size:14px;
+    cursor:pointer;
+}
+
+.category-btn.active{
+    background:#0f172a;
+    color:white;
+}
+
+/* TITLE */
+
+.section-title{
+    padding:0 20px;
+    margin-top:10px;
+    color:#0f172a;
+}
+
+/* PRODUCTS GRID */
+
+.products-grid{
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(260px,1fr));
+
+    gap:20px;
+
+    padding:20px;
+}
+
+/* CARD */
+
+.product-card{
+    background:white;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    box-shadow:0 4px 15px rgba(0,0,0,0.08);
+
+    position:relative;
+
+    transition:0.3s;
+}
+
+.product-card:hover{
+    transform:translateY(-5px);
+}
+
+/* BADGE */
+
+.badge-custom{
+    position:absolute;
+
+    top:10px;
+    left:10px;
+
+    background:#0f172a;
+    color:white;
+
+    padding:5px 10px;
+
+    border-radius:10px;
+
+    z-index:5;
+
+    font-size:12px;
+}
+
+/* SLIDER */
+
+.slider{
+    position:relative;
+    width:100%;
+    height:230px;
+    overflow:hidden;
+}
+
+.slide{
+    position:absolute;
+
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    opacity:0;
+
+    transition:0.5s;
+}
+
+.slide.active{
+    opacity:1;
+}
+
+/* SLIDER BUTTONS */
+
+.prev,.next{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+
+    border:none;
+
+    background:rgba(0,0,0,0.5);
+    color:white;
+
+    width:35px;
+    height:35px;
+
+    border-radius:50%;
+
+    cursor:pointer;
+
+    z-index:5;
+}
+
+.prev{
+    left:10px;
+}
+
+.next{
+    right:10px;
+}
+
+/* CONTENT */
+
+.product-content{
+    padding:15px;
+}
+
+.product-title{
+    font-size:18px;
+    font-weight:600;
+}
+
+.price{
+    font-size:24px;
+    font-weight:bold;
+
+    margin-top:10px;
+
+    color:#ff7b00;
+}
+
+.desc{
+    color:#64748b;
+    font-size:14px;
+
+    margin-top:10px;
+}
+
+/* QTY */
+
+.qty-box{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    gap:10px;
+
+    margin-top:15px;
+}
+
+.qty-box button{
+    width:35px;
+    height:35px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#0f172a;
+    color:white;
+
+    cursor:pointer;
+}
+
+.qty-box input{
+    width:50px;
+    text-align:center;
+
+    border:1px solid #ddd;
+    border-radius:8px;
+
+    height:35px;
+}
+
+/* BUTTONS */
+
+.button-group{
+    display:flex;
+    flex-direction:column;
+
+    gap:10px;
+
+    margin-top:15px;
+}
+
+.button-group button,
+.btn-whatsapp{
+    padding:12px;
+
+    border:none;
+    border-radius:12px;
+
+    text-align:center;
+
+    background:linear-gradient(135deg,#0f172a,#1e293b);
+
+    color:white;
+
+    text-decoration:none;
+
+    cursor:pointer;
+}
+
+/* DARK MODE */
+
+.dark{
+    background:#0f172a;
+}
+
+.dark .product-card{
+    background:#1e293b;
+}
+
+.dark .product-title,
+.dark .price,
+.dark .section-title{
+    color:white;
+}
+
+.dark .desc{
+    color:#cbd5e1;
+}
+
+.dark input{
+    background:#334155;
+    color:white;
+}
+
+/* MOBILE */
+
+@@media screen and (max-width:768px){
+
+    .products-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .slider{
+        height:170px;
+    }
+
+}
+
+@@media screen and (max-width:500px){
+
+    .products-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+</style>
+
+<!-- ⚡ SCRIPTS -->
+<script>
+// Loader
+window.addEventListener("load", function () {
+    document.getElementById("loader").style.display = "none";
+});
+
+// Dark mode
+function toggleDarkMode() {
+    document.body.classList.toggle("dark");
+}
+
+// Cart
+let cart = [];
+
+function changeQty(id, change) {
+    let input = document.getElementById("qty-" + id);
+    let value = parseInt(input.value);
+
+    value += change;
+    if (value < 1) value = 1;
+
+    input.value = value;
+}
+
+function addToCart(name, price, id) {
+    let qty = document.getElementById("qty-" + id).value;
+    cart.push({ name, price, qty });
+
+    alert(name + " (x" + qty + ") added to cart 🛒");
+}
+
+// WhatsApp
+function orderWhatsApp(name, id) {
+    let qty = document.getElementById("qty-" + id).value;
+    let msg = `I want to order ${name} (Quantity: ${qty})`;
+
+    let url = "https://wa.me/917021923652?text=" + encodeURIComponent(msg);
+    window.open(url, "_blank");
+}
+
+// Slider
+let sliders = {};
+
+function changeSlide(id, direction) {
+    const slider = document.getElementById("slider-" + id);
+    const slides = slider.getElementsByClassName("slide");
+
+    if (!sliders[id]) sliders[id] = 0;
+
+    slides[sliders[id]].classList.remove("active");
+
+    sliders[id] += direction;
+
+    if (sliders[id] >= slides.length) sliders[id] = 0;
+    if (sliders[id] < 0) sliders[id] = slides.length - 1;
+
+    slides[sliders[id]].classList.add("active");
+}
+
+// Auto slide
+setInterval(() => {
+    document.querySelectorAll(".slider").forEach(slider => {
+        const id = slider.id.split("-")[1];
+        changeSlide(id, 1);
+    });
+}, 4000);
+function searchProducts() {
+
+    let input =
+    document.getElementById("searchInput")
+    .value.toLowerCase();
+
+    let products =
+    document.querySelectorAll(".searchable");
+
+    products.forEach(product => {
+
+        let text =
+        product.innerText.toLowerCase();
+
+        if(text.includes(input)){
+            product.style.display = "block";
+        }
+        else{
+            product.style.display = "none";
+        }
+
+    });
+
+}
+</script>
