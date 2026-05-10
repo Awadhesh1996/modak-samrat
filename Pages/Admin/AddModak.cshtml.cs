@@ -5,32 +5,52 @@ public class AddModakModel : PageModel
 {
     private readonly IWebHostEnvironment _env;
 
+    public List<Category> Categories { get; set; } = new();
+
     public AddModakModel(IWebHostEnvironment env)
     {
         _env = env;
     }
 
+    // LOAD PAGE
     public IActionResult OnGet()
     {
         if (HttpContext.Session.GetString("AdminUser") == null)
             return RedirectToPage("/Admin/Login");
 
+        var service = new ModakService();
+
+        // LOAD CATEGORIES
+        Categories = service.GetCategories();
+
         return Page();
     }
 
-    public async Task<IActionResult> OnPost(string Name, int Price, string Description, List<IFormFile> Images)
+    // SAVE MODAK
+    public async Task<IActionResult> OnPost(
+        string Name,
+        int Price,
+        string Description,
+        int CategoryId,
+        List<IFormFile> Images)
     {
         var service = new ModakService();
 
         var modak = new Modak
         {
             Name = Name,
+
             Price = Price,
+
             Description = Description,
+
+            CategoryId = CategoryId,
+
             Images = new List<string>()
         };
 
-        string folderPath = Path.Combine(_env.WebRootPath, "images");
+        string folderPath =
+        Path.Combine(_env.WebRootPath, "images");
 
         if (!Directory.Exists(folderPath))
             Directory.CreateDirectory(folderPath);
@@ -39,10 +59,16 @@ public class AddModakModel : PageModel
         {
             if (file.Length > 0)
             {
-                string fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
-                string filePath = Path.Combine(folderPath, fileName);
+                string fileName =
+                Guid.NewGuid()
+                + Path.GetExtension(file.FileName);
 
-                using var stream = new FileStream(filePath, FileMode.Create);
+                string filePath =
+                Path.Combine(folderPath, fileName);
+
+                using var stream =
+                new FileStream(filePath, FileMode.Create);
+
                 await file.CopyToAsync(stream);
 
                 modak.Images.Add("/images/" + fileName);

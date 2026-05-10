@@ -25,5 +25,5 @@ app.MapRazorPages();
 
 var modakService = new ModakService();
 modakService.InitializeDatabase();
-app.Urls.Add("http://0.0.0.0:10000");
+//app.Urls.Add("http://0.0.0.0:10000");
 app.Run();

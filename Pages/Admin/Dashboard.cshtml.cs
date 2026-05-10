@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 public class DashboardModel : PageModel
 {
-    public List<Modak> Modaks { get; set; } = new List<Modak>();
+    public List<Modak> Modaks { get; set; } = new();
 
     public IActionResult OnGet()
     {

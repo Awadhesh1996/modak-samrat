@@ -137,3 +137,4 @@ C:\Users\cs\MyWebsite\bin\Release\net8.0\publish\publish\appsettings.Development
 C:\Users\cs\MyWebsite\bin\Release\net8.0\publish\publish\appsettings.json
 C:\Users\cs\MyWebsite\bin\Release\net8.0\publish\publish\MyWebsite.deps.json
 C:\Users\cs\MyWebsite\bin\Release\net8.0\publish\publish\MyWebsite.runtimeconfig.json
+C:\Users\cs\MyWebsite\obj\Release\net8.0\MyWebsite.sourcelink.json

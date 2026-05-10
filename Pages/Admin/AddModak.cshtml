@@ -1,22 +1,66 @@
 @page
 @model AddModakModel
 
-<h2>Add Modak 🍡</h2>
+<h2>Add Modak </h2>
 
 <form method="post" enctype="multipart/form-data">
-    <input type="text" name="Name" placeholder="Name" required /><br><br>
 
-    <input type="number" name="Price" placeholder="Price" required /><br><br>
+    <input type="text"
+           name="Name"
+           placeholder="Name"
+           required />
 
-    <textarea name="Description" placeholder="Description"></textarea><br><br>
+    <br><br>
 
-   <input type="file" id="imageInput" name="Images" multiple /><br><br>
+    <input type="number"
+           name="Price"
+           placeholder="Price"
+           required />
 
-    <div id="previewContainer" style="display:flex; gap:10px; flex-wrap:wrap;"></div>
+    <br><br>
 
-    <button type="submit">Save</button>
+    <!-- CATEGORY -->
+
+    <select name="CategoryId" required>
+
+        <option value="">
+            Select Category
+        </option>
+
+        @foreach (var category in Model.Categories)
+        {
+            <option value="@category.Id">
+                @category.Name
+            </option>
+        }
+
+    </select>
+
+    <br><br>
+
+    <textarea name="Description"
+              placeholder="Description"></textarea>
+
+    <br><br>
+
+    <input type="file"
+           id="imageInput"
+           name="Images"
+           multiple />
+
+    <br><br>
+
+    <div id="previewContainer"
+         style="display:flex;
+                gap:10px;
+                flex-wrap:wrap;">
+    </div>
+
+    <button type="submit">
+        Save
+    </button>
+
 </form>
-
 
 <script id="p7fqaz">
     const input = document.getElementById("imageInput");

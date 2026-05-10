@@ -1,37 +1,200 @@
 @page
 @model DashboardModel
 
-<h2>Admin Dashboard 🍡</h2>
+<link href="\css\bootstrap.min.css" rel="stylesheet">
 
-<a href="/Admin/AddModak">➕ Add New Modak</a>
+<div class="dashboard-container">
 
-<br><br>
+    <!-- TOP BAR -->
+    <div class="top-bar">
 
-<table border="1" cellpadding="10">
-    <tr>
-        <th>Name</th>
-        <th>Price</th>
-        <th>Actions</th>
-    </tr>
+        <div>
+            <h2>🍡 Modak Dashboard</h2>
+            <p>Manage your premium modaks</p>
+        </div>
 
-    @foreach (var modak in Model.Modaks)
-    {
-        <tr>
-            <td>@modak.Name</td>
-            <td>₹@modak.Price</td>
-            <td>
-                <a href="/Admin/EditModak?id=@modak.Id">Edit</a> |
-                <form method="post" asp-page-handler="Delete" style="display:inline;">
-                    <input type="hidden" name="id" value="@modak.Id" />
-                    <button type="submit">Delete</button>
-                </form>
-            </td>
-        </tr>
-    }
-</table>
+        <div>
+            <a href="/Admin/AddModak"
+               class="btn btn-dark">
+               ➕ Add Modak
+            </a>
+        </div>
 
-<br>
+    </div>
 
-<form method="post" asp-page-handler="Logout">
-    <button type="submit">Logout</button>
-</form>
+    <!-- TABLE -->
+
+    <div class="table-wrapper">
+
+        <table class="table align-middle">
+
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var modak in Model.Modaks)
+                {
+                    <tr>
+
+                        <!-- IMAGE -->
+                        <td>
+
+                            @if (modak.Images.Count > 0)
+                            {
+                                <img src="@modak.Images[0]"
+                                     class="product-img">
+                            }
+
+                        </td>
+
+                        <!-- NAME -->
+                        <td>
+                            @modak.Name
+                        </td>
+
+                        <!-- CATEGORY -->
+                        <td>
+
+                            <span class="badge bg-dark">
+                                @modak.CategoryName
+                            </span>
+
+                        </td>
+
+                        <!-- PRICE -->
+                        <td>
+                            ₹@modak.Price
+                        </td>
+
+                        <!-- ACTIONS -->
+                        <td>
+
+                            <a href="/Admin/EditModak?id=@modak.Id"
+                               class="btn btn-sm btn-primary">
+                               Edit
+                            </a>
+
+                            <form method="post"
+                                  asp-page-handler="Delete"
+                                  style="display:inline;">
+
+                                <input type="hidden"
+                                       name="id"
+                                       value="@modak.Id" />
+
+                                <button type="submit"
+                                        class="btn btn-sm btn-danger">
+
+                                    Delete
+
+                                </button>
+
+                            </form>
+
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- LOGOUT -->
+
+    <form method="post"
+          asp-page-handler="Logout">
+
+        <button type="submit"
+                class="btn btn-outline-dark">
+
+            Logout
+
+        </button>
+
+    </form>
+
+</div>
+
+<style>
+
+body{
+    background:#f4f6f9;
+    font-family:'Segoe UI',sans-serif;
+}
+
+.dashboard-container{
+    max-width:1200px;
+    margin:auto;
+    padding:30px;
+}
+
+.top-bar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:25px;
+}
+
+.top-bar h2{
+    margin:0;
+}
+
+.top-bar p{
+    color:#64748b;
+}
+
+.table-wrapper{
+    background:white;
+
+    border-radius:20px;
+
+    padding:20px;
+
+    box-shadow:0 4px 15px rgba(0,0,0,0.05);
+
+    overflow-x:auto;
+}
+
+.product-img{
+    width:70px;
+    height:70px;
+
+    object-fit:cover;
+
+    border-radius:12px;
+}
+
+table{
+    margin:0;
+}
+
+thead{
+    background:#0f172a;
+    color:white;
+}
+
+th{
+    padding:15px !important;
+}
+
+td{
+    vertical-align:middle;
+}
+
+.btn{
+    border-radius:10px;
+}
+
+</style>
