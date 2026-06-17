@@ -18,6 +18,22 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\cs\MyWebsite
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/cs/MyWebsite/latest/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = bGF0ZXN0XERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cs/MyWebsite/latest/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = bGF0ZXN0XEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cs/MyWebsite/New folder/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = TmV3IGZvbGRlclxEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cs/MyWebsite/New folder/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = TmV3IGZvbGRlclxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/cs/MyWebsite/Pages/Admin/AddModak.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cQWRkTW9kYWsuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -34,8 +50,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cTG9naW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/cs/MyWebsite/Pages/Admin/ManageFeedbacks.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cTWFuYWdlRmVlZGJhY2tzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cs/MyWebsite/Pages/Admin/ManageSettings.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cTWFuYWdlU2V0dGluZ3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/cs/MyWebsite/Pages/Admin/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cUmVnaXN0ZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cs/MyWebsite/Pages/DeliveryCheck.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRGVsaXZlcnlDaGVjay5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/cs/MyWebsite/Pages/Details.cshtml]
@@ -44,6 +72,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/cs/MyWebsite/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/cs/MyWebsite/Pages/Feedback.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmVlZGJhY2suY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/cs/MyWebsite/Pages/Index.cshtml]

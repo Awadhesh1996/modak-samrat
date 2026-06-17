@@ -1,0 +1,1022 @@
+﻿@page
+@model IndexModel
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=Cormorant+Garamond:ital,wght@1,300;1,500&display=swap" rel="stylesheet">
+
+<div class="ms-root" id="msRoot">
+
+    <!-- HERO HEADER -->
+    <header class="ms-header">
+        <div class="ms-header__glow"></div>
+        <div class="ms-header__noise"></div>
+
+        <nav class="ms-nav">
+            <div class="ms-nav__logo">
+                <img src="/images/modak.png" alt="Modak" class="ms-nav__logo-img">
+                <div class="ms-nav__logo-text">
+                    <span class="ms-nav__brand">Modak Samrat</span>
+                    <span class="ms-nav__tagline">The King of Sweets</span>
+                </div>
+            </div>
+            <div class="ms-nav__actions">
+                <button class="ms-dark-toggle" onclick="toggleDarkMode()" aria-label="Toggle dark mode">
+                    <span class="ms-dark-toggle__icon">🌙</span>
+                </button>
+                <div class="ms-cart-bubble" id="cartBubble" onclick="toggleCart()">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+                        <line x1="3" y1="6" x2="21" y2="6"/>
+                        <path d="M16 10a4 4 0 01-8 0"/>
+                    </svg>
+                    <span class="ms-cart-count" id="cartCount">0</span>
+                </div>
+            </div>
+        </nav>
+
+        <div class="ms-hero">
+            <div class="ms-hero__eyebrow">✦ Handcrafted since generations ✦</div>
+            <h1 class="ms-hero__title">
+                <span class="ms-hero__title-line">Premium</span>
+                <em class="ms-hero__title-italic">Modaks</em>
+                <span class="ms-hero__title-line">Reimagined</span>
+            </h1>
+            <p class="ms-hero__sub">Pure ingredients. Ancient recipes. Modern indulgence.</p>
+
+            <div class="ms-search-wrap">
+                <svg class="ms-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                </svg>
+                <input
+                    type="text"
+                    id="searchInput"
+                    class="ms-search"
+                    placeholder="Search modaks…"
+                    onkeyup="searchProducts()">
+            </div>
+        </div>
+    </header>
+
+    <!-- CATEGORIES -->
+    <section class="ms-categories">
+        <div class="ms-categories__track">
+            <button class="ms-cat active" onclick="filterCategory('all', this)">All</button>
+            @foreach (var category in Model.Categories)
+            {
+                <button class="ms-cat" onclick="filterCategory('@category.Name', this)">@category.Name</button>
+            }
+        </div>
+    </section>
+
+    <!-- SECTION HEADER -->
+    <div class="ms-section-head">
+        <div class="ms-section-head__line"></div>
+        <h2 class="ms-section-head__title">Our Collection</h2>
+        <div class="ms-section-head__line"></div>
+    </div>
+
+    <!-- PRODUCTS GRID -->
+    <main class="ms-grid" id="productsGrid">
+        @foreach (var modak in Model.Modaks)
+        {
+            <article class="ms-card searchable" data-category="@modak.CategoryName">
+
+                <!-- IMAGE AREA -->
+                <div class="ms-card__media" id="slider-@modak.Id">
+                    @for (int i = 0; i < modak.Images.Count; i++)
+                    {
+                        <img src="@modak.Images[i]"
+                             class="ms-card__slide @(i == 0 ? "active" : "")"
+                             alt="@modak.Name">
+                    }
+                    @if (modak.Images.Count > 1)
+                    {
+                        <button class="ms-slide-btn ms-slide-btn--prev" onclick="changeSlide(@modak.Id,-1)">‹</button>
+                        <button class="ms-slide-btn ms-slide-btn--next" onclick="changeSlide(@modak.Id,1)">›</button>
+                        <div class="ms-slide-dots" id="dots-@modak.Id">
+                            @for (int i = 0; i < modak.Images.Count; i++)
+                            {
+                                <span class="ms-dot @(i == 0 ? "active" : "")" onclick="goToSlide(@modak.Id, @i)"></span>
+                            }
+                        </div>
+                    }
+                    <div class="ms-card__badge">@modak.CategoryName</div>
+                    <div class="ms-card__overlay"></div>
+                </div>
+
+                <!-- CONTENT -->
+                <div class="ms-card__body">
+                    <a href="/Details?id=@modak.Id" class="ms-card__name-link">
+                        <h3 class="ms-card__name">@modak.Name</h3>
+                    </a>
+                    <p class="ms-card__desc">@modak.Description</p>
+
+                    <div class="ms-card__footer">
+                        <div class="ms-price-block">
+                            <span class="ms-price-unit">₹</span>
+                            <span class="ms-price-value" id="price-@modak.Id" data-baseprice="@modak.Price">@modak.Price</span>
+                        </div>
+
+                        <div class="ms-qty">
+                            <button class="ms-qty__btn" onclick="changeQty(@modak.Id,-1)">−</button>
+                            <input type="number" class="ms-qty__input" id="qty-@modak.Id" value="1" min="1" oninput="updatePrice(@modak.Id)">
+                            <button class="ms-qty__btn" onclick="changeQty(@modak.Id,1)">+</button>
+                        </div>
+                    </div>
+
+                    <div class="ms-card__actions">
+                        <button class="ms-btn ms-btn--cart" onclick="addToCart('@modak.Name', @modak.Price, @modak.Id)">
+                            Add to Cart
+                        </button>
+                        <a href="javascript:void(0)" onclick="orderWhatsApp('@modak.Name', @modak.Id)" class="ms-btn ms-btn--wa">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                            </svg>
+                            Order
+                        </a>
+                    </div>
+                </div>
+            </article>
+        }
+    </main>
+
+    <!-- EMPTY STATE -->
+    <div class="ms-empty" id="emptyState" style="display:none">
+        <div class="ms-empty__icon">🍡</div>
+        <p class="ms-empty__text">No modaks found</p>
+    </div>
+
+    <!-- CART DRAWER -->
+    <div class="ms-cart-backdrop" id="cartBackdrop" onclick="toggleCart()"></div>
+    <aside class="ms-cart-drawer" id="cartDrawer">
+        <div class="ms-cart-drawer__head">
+            <h3>Your Cart</h3>
+            <button onclick="toggleCart()" class="ms-cart-close">✕</button>
+        </div>
+        <div class="ms-cart-drawer__items" id="cartItems">
+            <div class="ms-cart-empty">Your cart is empty 🛒</div>
+        </div>
+        <div class="ms-cart-drawer__foot" id="cartFoot" style="display:none">
+            <div class="ms-cart-total">Total: <strong id="cartTotal">₹0</strong></div>
+            <button class="ms-btn ms-btn--cart" style="width:100%" onclick="checkoutWhatsApp()">
+                Checkout on WhatsApp 📱
+            </button>
+        </div>
+    </aside>
+
+    <!-- FOOTER -->
+    <footer class="ms-footer">
+        <div class="ms-footer__brand">Modak Samrat</div>
+        <p class="ms-footer__copy">Crafted with love · Pure ingredients · Ancient recipes</p>
+    </footer>
+
+</div>
+
+<style>
+
+/* ─── TOKENS ─────────────────────────────────────────── */
+:root {
+    --gold:       #c9933a;
+    --gold-light: #e8b96a;
+    --gold-dim:   #7a5520;
+    --ink:        #1a1208;
+    --cream:      #fdf6ec;
+    --cream2:     #f5ead8;
+    --card-bg:    #ffffff;
+    --text:       #2d1f0e;
+    --muted:      #8b7355;
+    --radius:     20px;
+    --shadow:     0 8px 40px rgba(0,0,0,0.10);
+
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body:    'DM Sans', sans-serif;
+    --font-italic:  'Cormorant Garamond', Georgia, serif;
+}
+
+body.dark {
+    --cream:    #120e08;
+    --cream2:   #1c160e;
+    --card-bg:  #211a10;
+    --text:     #f0e6d3;
+    --muted:    #a08b6e;
+    --ink:      #f0e6d3;
+    --shadow:   0 8px 40px rgba(0,0,0,0.4);
+}
+
+/* ─── RESET ──────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    background: var(--cream);
+    font-family: var(--font-body);
+    color: var(--text);
+    transition: background 0.4s, color 0.4s;
+    overflow-x: hidden;
+}
+
+.ms-root { min-height: 100vh; }
+
+/* ─── HEADER ─────────────────────────────────────────── */
+.ms-header {
+    position: relative;
+    background: linear-gradient(160deg, #1a1208 0%, #2d1a05 40%, #3d2410 70%, #1a1208 100%);
+    padding-bottom: 60px;
+    overflow: hidden;
+}
+
+.ms-header__glow {
+    position: absolute; inset: 0;
+    background:
+        radial-gradient(ellipse 60% 50% at 20% 30%, rgba(201,147,58,0.25) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 80% 70%, rgba(201,147,58,0.15) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.ms-header__noise {
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; opacity: 0.5;
+}
+
+/* ─── NAV ────────────────────────────────────────────── */
+.ms-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 32px;
+    position: relative; z-index: 10;
+}
+
+.ms-nav__logo { display: flex; align-items: center; gap: 14px; }
+
+.ms-nav__logo-img {
+    width: 48px; height: 48px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 12px rgba(201,147,58,0.5));
+}
+
+.ms-nav__brand {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--gold-light);
+    letter-spacing: 0.02em;
+    line-height: 1.1;
+}
+
+.ms-nav__tagline {
+    display: block;
+    font-size: 11px;
+    color: rgba(201,147,58,0.6);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 2px;
+}
+
+.ms-nav__actions { display: flex; align-items: center; gap: 16px; }
+
+.ms-dark-toggle {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(201,147,58,0.25);
+    border-radius: 50%;
+    width: 42px; height: 42px;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s;
+}
+.ms-dark-toggle:hover { background: rgba(201,147,58,0.15); }
+
+.ms-cart-bubble {
+    position: relative;
+    background: var(--gold);
+    border: none;
+    border-radius: 50%;
+    width: 46px; height: 46px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    color: #fff;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(201,147,58,0.4);
+}
+.ms-cart-bubble:hover { transform: scale(1.08); box-shadow: 0 6px 28px rgba(201,147,58,0.6); }
+
+.ms-cart-count {
+    position: absolute;
+    top: -5px; right: -5px;
+    background: #e63946;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid var(--cream);
+    display: none;
+}
+
+/* ─── HERO ───────────────────────────────────────────── */
+.ms-hero {
+    text-align: center;
+    padding: 40px 32px 20px;
+    position: relative; z-index: 5;
+}
+
+.ms-hero__eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+    opacity: 0.85;
+}
+
+.ms-hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 8vw, 88px);
+    font-weight: 900;
+    color: #fff;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 20px;
+}
+
+.ms-hero__title-line {
+    display: block;
+}
+
+.ms-hero__title-italic {
+    display: block;
+    font-family: var(--font-italic);
+    font-weight: 300;
+    font-style: italic;
+    font-size: 1.1em;
+    background: linear-gradient(90deg, var(--gold-light), var(--gold), var(--gold-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.ms-hero__sub {
+    color: rgba(255,255,255,0.5);
+    font-size: 16px;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    margin-bottom: 40px;
+}
+
+/* ─── SEARCH ─────────────────────────────────────────── */
+.ms-search-wrap {
+    position: relative;
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+.ms-search-icon {
+    position: absolute;
+    left: 18px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--gold);
+    pointer-events: none;
+}
+
+.ms-search {
+    width: 100%;
+    padding: 16px 20px 16px 50px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(201,147,58,0.3);
+    border-radius: 50px;
+    color: #fff;
+    font-size: 15px;
+    font-family: var(--font-body);
+    outline: none;
+    backdrop-filter: blur(10px);
+    transition: border-color 0.3s, background 0.3s;
+}
+
+.ms-search::placeholder { color: rgba(255,255,255,0.35); }
+.ms-search:focus {
+    border-color: var(--gold);
+    background: rgba(255,255,255,0.12);
+}
+
+/* ─── CATEGORIES ─────────────────────────────────────── */
+.ms-categories {
+    padding: 0 24px;
+    margin-top: -24px;
+    position: relative; z-index: 20;
+    overflow-x: auto;
+}
+.ms-categories::-webkit-scrollbar { display: none; }
+
+.ms-categories__track {
+    display: flex;
+    gap: 10px;
+    white-space: nowrap;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 16px 0 10px;
+}
+
+.ms-cat {
+    padding: 10px 22px;
+    border-radius: 50px;
+    border: 1.5px solid rgba(201,147,58,0.3);
+    background: var(--card-bg);
+    color: var(--muted);
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.25s;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.ms-cat:hover { border-color: var(--gold); color: var(--gold); }
+.ms-cat.active {
+    background: linear-gradient(135deg, var(--gold-dim), var(--gold));
+    border-color: transparent;
+    color: #fff;
+    box-shadow: 0 4px 20px rgba(201,147,58,0.35);
+}
+
+/* ─── SECTION HEAD ───────────────────────────────────── */
+.ms-section-head {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 40px 40px 20px;
+}
+
+.ms-section-head__line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,147,58,0.3), transparent);
+}
+
+.ms-section-head__title {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    white-space: nowrap;
+}
+
+/* ─── GRID ───────────────────────────────────────────── */
+.ms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 28px;
+    padding: 0 32px 60px;
+}
+
+/* ─── CARD ───────────────────────────────────────────── */
+.ms-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform 0.35s cubic-bezier(.22,.61,.36,1), box-shadow 0.35s;
+    position: relative;
+    border: 1px solid rgba(201,147,58,0.08);
+}
+.ms-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+}
+
+/* MEDIA */
+.ms-card__media {
+    position: relative;
+    height: 280px;
+    overflow: hidden;
+    background: var(--cream2);
+}
+
+.ms-card__slide {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+.ms-card__slide.active { opacity: 1; }
+
+.ms-card__overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(26,18,8,0.6) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.ms-card__badge {
+    position: absolute;
+    top: 14px; right: 14px;
+    background: rgba(201,147,58,0.92);
+    backdrop-filter: blur(8px);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 50px;
+    z-index: 5;
+}
+
+.ms-slide-btn {
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    background: rgba(0,0,0,0.35);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: #fff;
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0;
+}
+.ms-card:hover .ms-slide-btn { opacity: 1; }
+.ms-slide-btn:hover { background: rgba(201,147,58,0.7); }
+.ms-slide-btn--prev { left: 10px; }
+.ms-slide-btn--next { right: 10px; }
+
+.ms-slide-dots {
+    position: absolute;
+    bottom: 12px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; gap: 5px;
+    z-index: 10;
+}
+
+.ms-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+    cursor: pointer;
+    transition: all 0.25s;
+}
+.ms-dot.active {
+    background: var(--gold);
+    width: 18px;
+    border-radius: 3px;
+}
+
+/* BODY */
+.ms-card__body { padding: 20px 22px 22px; }
+
+.ms-card__name-link { text-decoration: none; color: inherit; }
+
+.ms-card__name {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+    margin-bottom: 8px;
+    transition: color 0.2s;
+}
+.ms-card__name:hover { color: var(--gold); }
+
+.ms-card__desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    min-height: 38px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+
+.ms-card__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(201,147,58,0.12);
+}
+
+.ms-price-block {
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+}
+
+.ms-price-unit {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--gold);
+}
+
+.ms-price-value {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+}
+
+/* QTY */
+.ms-qty {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--cream2);
+    border-radius: 50px;
+    padding: 4px 6px;
+}
+
+.ms-qty__btn {
+    width: 28px; height: 28px;
+    border: none;
+    background: var(--card-bg);
+    border-radius: 50%;
+    font-size: 16px;
+    cursor: pointer;
+    color: var(--text);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    transition: background 0.2s;
+}
+.ms-qty__btn:hover { background: var(--gold); color: #fff; }
+
+.ms-qty__input {
+    width: 38px;
+    text-align: center;
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    font-family: var(--font-body);
+    outline: none;
+}
+
+/* ACTIONS */
+.ms-card__actions { display: flex; gap: 10px; }
+
+.ms-btn {
+    flex: 1;
+    padding: 12px 10px;
+    border: none;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: var(--font-body);
+    cursor: pointer;
+    transition: all 0.25s;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    letter-spacing: 0.03em;
+}
+
+.ms-btn--cart {
+    background: linear-gradient(135deg, #1a1208, #3d2410);
+    color: #fff;
+}
+.ms-btn--cart:hover {
+    background: linear-gradient(135deg, #2d1a05, var(--gold-dim));
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+
+.ms-btn--wa {
+    background: linear-gradient(135deg, #128c7e, #25d366);
+    color: #fff;
+    flex: 0 0 auto;
+    padding: 12px 16px;
+}
+.ms-btn--wa:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(37,211,102,0.35);
+}
+
+/* ─── EMPTY STATE ────────────────────────────────────── */
+.ms-empty {
+    text-align: center;
+    padding: 80px 20px;
+}
+.ms-empty__icon { font-size: 64px; display: block; margin-bottom: 16px; }
+.ms-empty__text { color: var(--muted); font-size: 18px; }
+
+/* ─── CART DRAWER ────────────────────────────────────── */
+.ms-cart-backdrop {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 90;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s;
+    backdrop-filter: blur(4px);
+}
+.ms-cart-backdrop.open { opacity: 1; pointer-events: all; }
+
+.ms-cart-drawer {
+    position: fixed;
+    top: 0; right: 0;
+    width: min(380px, 100vw);
+    height: 100vh;
+    background: var(--card-bg);
+    z-index: 100;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(.22,.61,.36,1);
+    display: flex; flex-direction: column;
+    box-shadow: -10px 0 60px rgba(0,0,0,0.2);
+}
+.ms-cart-drawer.open { transform: translateX(0); }
+
+.ms-cart-drawer__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px;
+    border-bottom: 1px solid rgba(201,147,58,0.15);
+}
+.ms-cart-drawer__head h3 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    color: var(--text);
+}
+
+.ms-cart-close {
+    background: none; border: none;
+    font-size: 20px; cursor: pointer;
+    color: var(--muted);
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+}
+.ms-cart-close:hover { background: var(--cream2); }
+
+.ms-cart-drawer__items {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 24px;
+}
+
+.ms-cart-empty { text-align: center; color: var(--muted); padding: 60px 0; font-size: 15px; }
+
+.ms-cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(201,147,58,0.08);
+}
+.ms-cart-item__name { font-weight: 600; font-size: 14px; color: var(--text); }
+.ms-cart-item__meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.ms-cart-item__price { font-family: var(--font-display); font-weight: 700; color: var(--gold); font-size: 16px; }
+
+.ms-cart-drawer__foot {
+    padding: 20px 24px;
+    border-top: 1px solid rgba(201,147,58,0.15);
+}
+
+.ms-cart-total {
+    font-size: 16px;
+    color: var(--text);
+    margin-bottom: 16px;
+}
+.ms-cart-total strong {
+    font-family: var(--font-display);
+    font-size: 24px;
+    color: var(--gold);
+}
+
+/* ─── FOOTER ─────────────────────────────────────────── */
+.ms-footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.4);
+    text-align: center;
+    padding: 40px 20px;
+}
+.ms-footer__brand {
+    font-family: var(--font-display);
+    font-size: 20px;
+    color: var(--gold-light);
+    margin-bottom: 8px;
+}
+.ms-footer__copy { font-size: 13px; letter-spacing: 0.05em; }
+
+/* ─── DARK MODE OVERRIDES ────────────────────────────── */
+body.dark .ms-cat { border-color: rgba(201,147,58,0.2); }
+body.dark .ms-search { color: #f0e6d3; }
+body.dark .ms-qty { background: rgba(255,255,255,0.06); }
+body.dark .ms-qty__btn { background: var(--cream2); }
+
+/* ─── MOBILE ─────────────────────────────────────────── */
+@@media (max-width: 768px) {
+    .ms-nav { padding: 18px 20px; }
+    .ms-hero { padding: 28px 20px 16px; }
+    .ms-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; padding: 0 16px 40px; }
+    .ms-card__media { height: 200px; }
+    .ms-card__body { padding: 14px 16px 16px; }
+    .ms-card__name { font-size: 16px; }
+    .ms-price-value { font-size: 22px; }
+    .ms-section-head { padding: 28px 20px 12px; }
+    .ms-categories__track { justify-content: flex-start; flex-wrap: nowrap; padding: 16px 4px 10px; }
+}
+
+@@media (max-width: 480px) {
+    .ms-grid { grid-template-columns: 1fr; }
+    .ms-hero__title { font-size: 44px; }
+}
+
+/* ─── ENTRY ANIMATIONS ───────────────────────────────── */
+@@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.ms-hero__eyebrow  { animation: fadeUp 0.6s ease 0.1s both; }
+.ms-hero__title    { animation: fadeUp 0.7s ease 0.2s both; }
+.ms-hero__sub      { animation: fadeUp 0.6s ease 0.35s both; }
+.ms-search-wrap    { animation: fadeUp 0.6s ease 0.45s both; }
+
+.ms-card {
+    animation: fadeUp 0.5s ease both;
+}
+
+</style>
+
+<script>
+
+/* ─── DARK MODE ─────────────────────────── */
+function toggleDarkMode() {
+    document.body.classList.toggle('dark');
+    localStorage.setItem('msDark', document.body.classList.contains('dark') ? '1' : '0');
+}
+if (localStorage.getItem('msDark') === '1') document.body.classList.add('dark');
+
+/* ─── SLIDER ─────────────────────────────── */
+const sliders = {};
+function changeSlide(id, dir) {
+    const wrap = document.getElementById('slider-' + id);
+    const slides = wrap.querySelectorAll('.ms-card__slide');
+    const dots = wrap.querySelectorAll('.ms-dot');
+    if (!sliders[id]) sliders[id] = 0;
+    slides[sliders[id]].classList.remove('active');
+    if (dots.length) dots[sliders[id]].classList.remove('active');
+    sliders[id] = (sliders[id] + dir + slides.length) % slides.length;
+    slides[sliders[id]].classList.add('active');
+    if (dots.length) dots[sliders[id]].classList.add('active');
+}
+
+function goToSlide(id, index) {
+    const wrap = document.getElementById('slider-' + id);
+    const slides = wrap.querySelectorAll('.ms-card__slide');
+    const dots = wrap.querySelectorAll('.ms-dot');
+    if (!sliders[id]) sliders[id] = 0;
+    slides[sliders[id]].classList.remove('active');
+    if (dots.length) dots[sliders[id]].classList.remove('active');
+    sliders[id] = index;
+    slides[sliders[id]].classList.add('active');
+    if (dots.length) dots[sliders[id]].classList.add('active');
+}
+
+// Auto-slide per card with independent timers
+document.querySelectorAll('.ms-card__media').forEach(wrap => {
+    const id = wrap.id.split('-')[1];
+    const slides = wrap.querySelectorAll('.ms-card__slide');
+    if (slides.length > 1) {
+        setInterval(() => changeSlide(id, 1), 3500 + Math.random() * 1500);
+    }
+});
+
+/* ─── PRICE / QTY ────────────────────────── */
+function changeQty(id, delta) {
+    const input = document.getElementById('qty-' + id);
+    let v = Math.max(1, parseInt(input.value) + delta);
+    input.value = v;
+    updatePrice(id);
+}
+
+function updatePrice(id) {
+    const input = document.getElementById('qty-' + id);
+    const priceEl = document.getElementById('price-' + id);
+    const qty = Math.max(1, parseInt(input.value) || 1);
+    input.value = qty;
+    priceEl.textContent = parseInt(priceEl.dataset.baseprice) * qty;
+}
+
+/* ─── CART ───────────────────────────────── */
+let cart = [];
+
+function addToCart(name, price, id) {
+    const qty = parseInt(document.getElementById('qty-' + id).value);
+    const existing = cart.find(i => i.id === id);
+    if (existing) { existing.qty += qty; existing.total = existing.price * existing.qty; }
+    else cart.push({ id, name, price, qty, total: price * qty });
+    renderCart();
+    toggleCart(true);
+}
+
+function renderCart() {
+    const container = document.getElementById('cartItems');
+    const foot = document.getElementById('cartFoot');
+    const count = document.getElementById('cartCount');
+    const totalEl = document.getElementById('cartTotal');
+
+    const totalQty = cart.reduce((s, i) => s + i.qty, 0);
+    const totalPrice = cart.reduce((s, i) => s + i.total, 0);
+
+    count.style.display = totalQty > 0 ? 'flex' : 'none';
+    count.textContent = totalQty;
+    totalEl.textContent = '₹' + totalPrice;
+    foot.style.display = cart.length ? 'block' : 'none';
+
+    if (!cart.length) {
+        container.innerHTML = '<div class="ms-cart-empty">Your cart is empty 🛒</div>';
+        return;
+    }
+
+    container.innerHTML = cart.map(i => `
+        <div class="ms-cart-item">
+            <div>
+                <div class="ms-cart-item__name">${i.name}</div>
+                <div class="ms-cart-item__meta">Qty: ${i.qty} × ₹${i.price}</div>
+            </div>
+            <div class="ms-cart-item__price">₹${i.total}</div>
+        </div>
+    `).join('');
+}
+
+function toggleCart(forceOpen) {
+    const drawer = document.getElementById('cartDrawer');
+    const backdrop = document.getElementById('cartBackdrop');
+    const isOpen = drawer.classList.contains('open');
+    if (forceOpen === true || !isOpen) {
+        drawer.classList.add('open');
+        backdrop.classList.add('open');
+    } else {
+        drawer.classList.remove('open');
+        backdrop.classList.remove('open');
+    }
+}
+
+function checkoutWhatsApp() {
+    if (!cart.length) return;
+    const total = cart.reduce((s, i) => s + i.total, 0);
+    let msg = "Hello Modak Samrat!%0A%0A*Order Summary:*%0A";
+    cart.forEach(i => { msg += `• ${i.name} × ${i.qty} = ₹${i.total}%0A`; });
+    msg += `%0A*Total: ₹${total}*%0A%0APlease confirm availability. Thank you!`;
+    window.open('https://wa.me/917021923652?text=' + msg, '_blank');
+}
+
+/* ─── SEARCH ─────────────────────────────── */
+function searchProducts() {
+    const q = document.getElementById('searchInput').value.toLowerCase().trim();
+    const cards = document.querySelectorAll('.searchable');
+    let visible = 0;
+    cards.forEach(c => {
+        const match = c.innerText.toLowerCase().includes(q);
+        c.style.display = match ? '' : 'none';
+        if (match) visible++;
+    });
+    document.getElementById('emptyState').style.display = visible === 0 ? 'block' : 'none';
+}
+
+/* ─── CATEGORY FILTER ────────────────────── */
+function filterCategory(cat, btn) {
+    document.querySelectorAll('.ms-cat').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const cards = document.querySelectorAll('.searchable');
+    let visible = 0;
+    cards.forEach(c => {
+        const match = cat === 'all' || c.dataset.category.toLowerCase() === cat.toLowerCase();
+        c.style.display = match ? '' : 'none';
+        if (match) visible++;
+    });
+    document.getElementById('emptyState').style.display = visible === 0 ? 'block' : 'none';
+}
+
+/* ─── CARD ENTRY ANIMATION ───────────────── */
+const observer = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+            e.target.style.animationDelay = (i * 0.05) + 's';
+            e.target.classList.add('ms-card--visible');
+            observer.unobserve(e.target);
+        }
+    });
+}, { threshold: 0.1 });
+document.querySelectorAll('.ms-card').forEach(c => observer.observe(c));
+
+</script>

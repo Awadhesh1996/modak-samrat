@@ -1,0 +1,482 @@
+@page
+@model FeedbackModel
+
+@{
+    ViewData["Title"] = "Share Your Feedback – Modak Samrat";
+}
+
+<div class="fb-root">
+
+    <!-- HEADER -->
+    <header class="fb-header">
+        <div class="fb-header__glow"></div>
+        <nav class="fb-nav">
+            <a href="/" class="fb-nav__logo">
+                <img src="/images/modak.png" alt="Modak Samrat" class="fb-nav__logo-img" loading="lazy">
+                <div>
+                    <span class="fb-nav__brand">Modak Samrat</span>
+                    <span class="fb-nav__tagline">The King of Sweets</span>
+                </div>
+            </a>
+            <a href="/" class="fb-nav__back">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+                Back to Store
+            </a>
+        </nav>
+
+        <div class="fb-hero">
+            <div class="fb-hero__eyebrow">✦ We Value Your Opinion ✦</div>
+            <h1 class="fb-hero__title">Share Your<br><em>Experience</em></h1>
+            <p class="fb-hero__sub">Your feedback helps us craft better modaks for everyone</p>
+        </div>
+    </header>
+
+    <div class="fb-main">
+
+        <!-- LEFT: FORM -->
+        <div class="fb-form-wrap">
+
+            @if (Model.Success)
+            {
+                <div class="fb-success">
+                    <div class="fb-success__icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22,4 12,14.01 9,11.01"/></svg>
+                    </div>
+                    <h3 class="fb-success__title">Thank you for your feedback!</h3>
+                    <p class="fb-success__text">Your review has been submitted successfully. It means a lot to us! 🙏</p>
+                    <a href="/" class="fb-btn fb-btn--primary" style="display:inline-flex;margin-top:8px">Back to Store</a>
+                </div>
+            }
+            else
+            {
+                <div class="fb-card">
+                    <h2 class="fb-card__title">Write a Review</h2>
+                    <p class="fb-card__sub">Ordered recently? Tell us what you thought!</p>
+
+                    <form method="post" class="fb-form" id="feedbackForm">
+
+                        <!-- NAME + PHONE -->
+                        <div class="fb-row">
+                            <div class="fb-field">
+                                <label class="fb-label">Your Name <span class="fb-req">*</span></label>
+                                <div class="fb-input-wrap">
+                                    <svg class="fb-input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                    <input type="text" name="Name" class="fb-input" placeholder="e.g. Priya Sharma" required>
+                                </div>
+                            </div>
+                            <div class="fb-field">
+                                <label class="fb-label">Phone / WhatsApp <span class="fb-req-opt">(optional)</span></label>
+                                <div class="fb-input-wrap">
+                                    <svg class="fb-input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8a19.79 19.79 0 01-3.07-8.68A2 2 0 012 .18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+                                    <input type="tel" name="Phone" class="fb-input" placeholder="e.g. 9876543210">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- MODAK ORDERED -->
+                        <div class="fb-field">
+                            <label class="fb-label">Which Modak Did You Order?</label>
+                            <div class="fb-select-wrap">
+                                <select name="ModakName" class="fb-select">
+                                    <option value="">— Select a modak (optional) —</option>
+                                    @foreach (var modak in Model.Modaks)
+                                    {
+                                        <option value="@modak.Name">@modak.Name</option>
+                                    }
+                                    <option value="Multiple">Multiple items</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                                <svg class="fb-select-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                            </div>
+                        </div>
+
+                        <!-- STAR RATING -->
+                        <div class="fb-field">
+                            <label class="fb-label">Overall Rating <span class="fb-req">*</span></label>
+                            <div class="fb-stars" id="starRating">
+                                <input type="hidden" name="Rating" id="ratingInput" value="0" required>
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    <button type="button" class="fb-star" data-val="@i" onclick="setRating(@i)" title="@i star@(i > 1 ? "s" : "")">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                            <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
+                                        </svg>
+                                    </button>
+                                }
+                                <span class="fb-rating-label" id="ratingLabel">Tap to rate</span>
+                            </div>
+                        </div>
+
+                        <!-- CATEGORY TAGS -->
+                        <div class="fb-field">
+                            <label class="fb-label">What Did You Love? <span class="fb-req-opt">(pick any)</span></label>
+                            <div class="fb-tags" id="tagGroup">
+                                @foreach (var tag in new[] { "Taste", "Freshness", "Packaging", "Value for Money", "Delivery Speed", "Gift Wrapping", "Quantity" })
+                                {
+                                    <label class="fb-tag">
+                                        <input type="checkbox" name="Tags" value="@tag" class="fb-tag__check">
+                                        <span class="fb-tag__label">@tag</span>
+                                    </label>
+                                }
+                            </div>
+                        </div>
+
+                        <!-- MESSAGE -->
+                        <div class="fb-field">
+                            <label class="fb-label">Your Review <span class="fb-req">*</span></label>
+                            <textarea name="Message"
+                                      class="fb-textarea"
+                                      placeholder="Tell us about your experience — taste, delivery, packaging, occasion..."
+                                      rows="4"
+                                      maxlength="500"
+                                      oninput="updateCount(this)"
+                                      required></textarea>
+                            <div class="fb-count"><span id="charCount">0</span> / 500</div>
+                        </div>
+
+                        <!-- OCCASION -->
+                        <div class="fb-field">
+                            <label class="fb-label">Ordered For <span class="fb-req-opt">(optional)</span></label>
+                            <div class="fb-occasion-group">
+                                @foreach (var occ in new[] { "Ganesh Chaturthi", "Diwali", "Wedding", "Birthday", "Pooja", "Just a treat" })
+                                {
+                                    <label class="fb-occasion">
+                                        <input type="radio" name="Occasion" value="@occ" class="fb-occasion__radio">
+                                        <span class="fb-occasion__label">@occ</span>
+                                    </label>
+                                }
+                            </div>
+                        </div>
+
+                        <!-- WOULD RECOMMEND -->
+                        <div class="fb-recommend">
+                            <div class="fb-recommend__text">
+                                <span class="fb-recommend__title">Would you recommend us to friends?</span>
+                                <span class="fb-recommend__sub">Help others discover Modak Samrat</span>
+                            </div>
+                            <div style="display:flex;align-items:center;gap:10px">
+                                <span class="fb-rec-val" id="recLabel" style="font-size:13px;font-weight:700;color:var(--gold)">Yes ✓</span>
+                                <label class="fb-toggle">
+                                    <input type="checkbox" name="WouldRecommend" value="true" class="fb-toggle__check" checked
+                                           onchange="document.getElementById('recLabel').textContent=this.checked?'Yes ✓':'No'">
+                                    <span class="fb-toggle__slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- SUBMIT -->
+                        <button type="submit" class="fb-btn fb-btn--primary" id="submitBtn">
+                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22,2 15,22 11,13 2,9"/></svg>
+                            Submit Feedback
+                        </button>
+
+                    </form>
+                </div>
+            }
+        </div>
+
+        <!-- RIGHT: EXISTING REVIEWS -->
+        <div class="fb-reviews-wrap">
+            <div class="fb-reviews-head">
+                <h2 class="fb-reviews-title">What Others Say</h2>
+                @if (Model.Feedbacks.Any())
+                {
+                    <div class="fb-reviews-avg">
+                        <span class="fb-reviews-score">@Model.AverageRating.ToString("F1")</span>
+                        <div>
+                            <div class="fb-reviews-stars-static">
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="@(i <= Math.Round(Model.AverageRating) ? "#c9933a" : "none")" stroke="#c9933a" stroke-width="2">
+                                        <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
+                                    </svg>
+                                }
+                            </div>
+                            <span class="fb-reviews-count">@Model.Feedbacks.Count review@(Model.Feedbacks.Count != 1 ? "s" : "")</span>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="fb-reviews-list">
+                @if (!Model.Feedbacks.Any())
+                {
+                    <div class="fb-no-reviews">
+                        <div class="fb-no-reviews__icon">
+                            <svg width="48" height="48" viewBox="0 0 100 100" fill="none">
+                                <ellipse cx="50" cy="68" rx="28" ry="10" fill="#c9933a" opacity="0.15"/>
+                                <path d="M50 88 C25 88 18 70 20 56 C22 42 32 28 50 16 C68 28 78 42 80 56 C82 70 75 88 50 88 Z" fill="#c9933a" opacity="0.5"/>
+                                <circle cx="50" cy="16" r="6" fill="#7a5520"/>
+                                <circle cx="50" cy="16" r="3.5" fill="#e8b96a"/>
+                            </svg>
+                        </div>
+                        <p>No reviews yet — be the first!</p>
+                    </div>
+                }
+                else
+                {
+                    @foreach (var fb in Model.Feedbacks.OrderByDescending(f => f.CreatedAt))
+                    {
+                        <div class="fb-review-card">
+                            <div class="fb-review-card__head">
+                                <div class="fb-review-card__avatar">@fb.Name[0].ToString().ToUpper()</div>
+                                <div class="fb-review-card__meta">
+                                    <div class="fb-review-card__name">@fb.Name</div>
+                                    @if (!string.IsNullOrEmpty(fb.ModakName))
+                                    {
+                                        <div class="fb-review-card__modak">@fb.ModakName</div>
+                                    }
+                                </div>
+                                <div class="fb-review-card__stars">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="@(i <= fb.Rating ? "#c9933a" : "none")" stroke="#c9933a" stroke-width="2">
+                                            <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
+                                        </svg>
+                                    }
+                                </div>
+                            </div>
+                            @if (!string.IsNullOrEmpty(fb.Tags))
+                            {
+                                <div class="fb-review-card__tags">
+                                    @foreach (var tag in fb.Tags.Split(','))
+                                    {
+                                        <span class="fb-review-card__tag">@tag.Trim()</span>
+                                    }
+                                </div>
+                            }
+                            <p class="fb-review-card__text">@fb.Message</p>
+                            <div class="fb-review-card__foot">
+                                @if (!string.IsNullOrEmpty(fb.Occasion))
+                                {
+                                    <span class="fb-review-card__occasion">🎉 @fb.Occasion</span>
+                                }
+                                <span class="fb-review-card__date">@fb.CreatedAt.ToString("MMM dd, yyyy")</span>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="fb-footer">
+        <div class="fb-footer__brand">Modak Samrat</div>
+        <p class="fb-footer__copy">Crafted with love · Pure ingredients · Ancient recipes</p>
+    </footer>
+
+</div>
+
+<style>
+:root{
+    --gold:#c9933a;--gold-light:#e8b96a;--gold-dim:#7a5520;
+    --ink:#1a1208;--cream:#fdf6ec;--cream2:#f5ead8;--card:#ffffff;
+    --text:#2d1f0e;--muted:#8b7355;--border:rgba(201,147,58,.18);
+    --danger:#e63946;--success:#25a066;
+    --font-display:'Playfair Display',Georgia,serif;
+    --font-body:'DM Sans',sans-serif;
+    --shadow:0 8px 40px rgba(0,0,0,.08);--radius:20px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--cream);font-family:var(--font-body);color:var(--text);min-height:100vh}
+
+/* HEADER */
+.fb-header{position:relative;background:linear-gradient(160deg,#1a1208 0%,#2d1a05 40%,#3d2410 70%,#1a1208 100%);padding-bottom:48px;overflow:hidden}
+.fb-header__glow{position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 20% 30%,rgba(201,147,58,.22) 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 80% 70%,rgba(201,147,58,.12) 0%,transparent 70%);pointer-events:none}
+
+/* NAV */
+.fb-nav{display:flex;justify-content:space-between;align-items:center;padding:22px 36px;position:relative;z-index:5}
+.fb-nav__logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.fb-nav__logo-img{width:42px;height:42px;object-fit:contain;filter:drop-shadow(0 0 10px rgba(201,147,58,.5))}
+.fb-nav__brand{display:block;font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--gold-light)}
+.fb-nav__tagline{display:block;font-size:10px;color:rgba(201,147,58,.55);letter-spacing:.12em;text-transform:uppercase;margin-top:1px}
+.fb-nav__back{display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.6);text-decoration:none;font-size:14px;font-weight:500;transition:color .2s}
+.fb-nav__back:hover{color:var(--gold)}
+
+/* HERO */
+.fb-hero{text-align:center;padding:24px 32px 0;position:relative;z-index:5}
+.fb-hero__eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;opacity:.85}
+.fb-hero__title{font-family:var(--font-display);font-size:clamp(36px,6vw,64px);font-weight:900;color:#fff;line-height:1;margin-bottom:14px}
+.fb-hero__title em{font-style:italic;background:linear-gradient(90deg,var(--gold-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.fb-hero__sub{color:rgba(255,255,255,.45);font-size:15px;font-weight:300}
+
+/* MAIN */
+.fb-main{display:grid;grid-template-columns:1fr 1fr;gap:40px;max-width:1200px;margin:0 auto;padding:48px 40px 60px}
+
+/* CARD */
+.fb-card{background:var(--card);border-radius:var(--radius);padding:36px;box-shadow:var(--shadow);border:1px solid var(--border)}
+.fb-card__title{font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--text);margin-bottom:6px}
+.fb-card__sub{font-size:14px;color:var(--muted);margin-bottom:28px}
+
+/* FORM */
+.fb-form{display:flex;flex-direction:column;gap:22px}
+.fb-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.fb-field{display:flex;flex-direction:column;gap:7px}
+.fb-label{font-size:13px;font-weight:600;color:var(--text)}
+.fb-req{color:var(--danger)}
+.fb-req-opt{font-size:11px;color:var(--muted);font-weight:400}
+
+.fb-input-wrap{position:relative}
+.fb-input-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--gold);pointer-events:none}
+.fb-input{width:100%;padding:13px 14px 13px 40px;border:1.5px solid var(--border);border-radius:12px;font-size:14px;font-family:var(--font-body);color:var(--text);background:var(--cream);outline:none;transition:border-color .2s,box-shadow .2s}
+.fb-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,147,58,.1);background:#fff}
+.fb-input::placeholder{color:#c4b09a}
+
+.fb-select-wrap{position:relative}
+.fb-select{width:100%;padding:13px 38px 13px 14px;border:1.5px solid var(--border);border-radius:12px;font-size:14px;font-family:var(--font-body);color:var(--text);background:var(--cream);outline:none;appearance:none;cursor:pointer;transition:border-color .2s,box-shadow .2s}
+.fb-select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,147,58,.1);background:#fff}
+.fb-select-icon{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--gold);pointer-events:none}
+
+/* STARS */
+.fb-stars{display:flex;align-items:center;gap:6px}
+.fb-star{background:none;border:none;cursor:pointer;padding:2px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;transition:transform .15s}
+.fb-star svg{width:30px;height:30px;transition:fill .2s,stroke .2s}
+.fb-star:hover{transform:scale(1.15)}
+.fb-star.active svg{fill:var(--gold);stroke:var(--gold)}
+.fb-star.hover svg{fill:var(--gold-light);stroke:var(--gold-light)}
+.fb-rating-label{font-size:13px;color:var(--muted);margin-left:8px;min-width:80px}
+
+/* TAGS */
+.fb-tags{display:flex;flex-wrap:wrap;gap:8px}
+.fb-tag{cursor:pointer}
+.fb-tag__check{display:none}
+.fb-tag__label{display:block;padding:7px 16px;border-radius:50px;border:1.5px solid var(--border);font-size:12px;font-weight:500;color:var(--muted);transition:all .2s;background:var(--cream)}
+.fb-tag__check:checked + .fb-tag__label{background:linear-gradient(135deg,var(--gold-dim),var(--gold));border-color:transparent;color:#fff}
+.fb-tag__label:hover{border-color:var(--gold);color:var(--gold)}
+
+/* TEXTAREA */
+.fb-textarea{padding:13px 14px;border:1.5px solid var(--border);border-radius:12px;font-size:14px;font-family:var(--font-body);color:var(--text);background:var(--cream);outline:none;resize:vertical;line-height:1.6;transition:border-color .2s,box-shadow .2s}
+.fb-textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,147,58,.1);background:#fff}
+.fb-textarea::placeholder{color:#c4b09a}
+.fb-count{text-align:right;font-size:11px;color:var(--muted);margin-top:2px}
+
+/* OCCASION */
+.fb-occasion-group{display:flex;flex-wrap:wrap;gap:8px}
+.fb-occasion{cursor:pointer}
+.fb-occasion__radio{display:none}
+.fb-occasion__label{display:block;padding:7px 16px;border-radius:50px;border:1.5px solid var(--border);font-size:12px;color:var(--muted);transition:all .2s;background:var(--cream)}
+.fb-occasion__radio:checked + .fb-occasion__label{background:var(--cream2);border-color:var(--gold);color:var(--gold-dim);font-weight:600}
+.fb-occasion__label:hover{border-color:var(--gold)}
+
+/* RECOMMEND TOGGLE */
+.fb-recommend{display:flex;align-items:center;justify-content:space-between;background:var(--cream2);border:1px solid var(--border);border-radius:14px;padding:16px 18px}
+.fb-recommend__title{display:block;font-size:14px;font-weight:600;color:var(--text);margin-bottom:2px}
+.fb-recommend__sub{display:block;font-size:12px;color:var(--muted)}
+.fb-toggle{position:relative;width:48px;height:26px;flex-shrink:0}
+.fb-toggle__check{opacity:0;width:0;height:0;position:absolute}
+.fb-toggle__slider{position:absolute;inset:0;background:#d4c5b0;border-radius:50px;cursor:pointer;transition:background .3s}
+.fb-toggle__slider::before{content:'';position:absolute;width:20px;height:20px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:transform .3s;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.fb-toggle__check:checked + .fb-toggle__slider{background:var(--gold)}
+.fb-toggle__check:checked + .fb-toggle__slider::before{transform:translateX(22px)}
+
+/* SUBMIT BTN */
+.fb-btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:15px 28px;border:none;border-radius:14px;font-size:15px;font-weight:600;font-family:var(--font-body);cursor:pointer;transition:all .3s;text-decoration:none;width:100%}
+.fb-btn--primary{background:linear-gradient(135deg,var(--ink),#3d2410);color:#fff;box-shadow:0 6px 24px rgba(26,18,8,.25)}
+.fb-btn--primary:hover{background:linear-gradient(135deg,#2d1a05,var(--gold-dim));transform:translateY(-1px);box-shadow:0 10px 32px rgba(26,18,8,.35)}
+
+/* SUCCESS */
+.fb-success{background:var(--card);border-radius:var(--radius);padding:48px 36px;text-align:center;box-shadow:var(--shadow);border:1px solid rgba(37,160,102,.2)}
+.fb-success__icon{width:72px;height:72px;background:rgba(37,160,102,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;color:var(--success)}
+.fb-success__title{font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--text);margin-bottom:10px}
+.fb-success__text{font-size:15px;color:var(--muted);line-height:1.6}
+
+/* REVIEWS PANEL */
+.fb-reviews-wrap{display:flex;flex-direction:column;gap:0}
+.fb-reviews-head{margin-bottom:24px}
+.fb-reviews-title{font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--text);margin-bottom:12px}
+.fb-reviews-avg{display:flex;align-items:center;gap:14px}
+.fb-reviews-score{font-family:var(--font-display);font-size:40px;font-weight:900;color:var(--gold);line-height:1}
+.fb-reviews-stars-static{display:flex;gap:3px;margin-bottom:4px}
+.fb-reviews-count{font-size:13px;color:var(--muted)}
+.fb-reviews-list{display:flex;flex-direction:column;gap:14px;max-height:720px;overflow-y:auto;padding-right:4px}
+.fb-reviews-list::-webkit-scrollbar{width:4px}
+.fb-reviews-list::-webkit-scrollbar-track{background:var(--cream2);border-radius:2px}
+.fb-reviews-list::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
+
+/* REVIEW CARD */
+.fb-review-card{background:var(--card);border-radius:16px;padding:20px;box-shadow:0 2px 16px rgba(0,0,0,.06);border:1px solid var(--border);transition:transform .2s}
+.fb-review-card:hover{transform:translateY(-2px)}
+.fb-review-card__head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.fb-review-card__avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--gold-dim),var(--gold));color:#fff;font-family:var(--font-display);font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.fb-review-card__name{font-size:14px;font-weight:700;color:var(--text)}
+.fb-review-card__modak{font-size:11px;color:var(--gold);margin-top:2px;font-weight:500}
+.fb-review-card__stars{display:flex;gap:2px;margin-left:auto}
+.fb-review-card__tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.fb-review-card__tag{font-size:10px;padding:3px 10px;background:var(--cream2);border:1px solid rgba(201,147,58,.2);border-radius:50px;color:var(--muted)}
+.fb-review-card__text{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:12px}
+.fb-review-card__foot{display:flex;justify-content:space-between;align-items:center}
+.fb-review-card__occasion{font-size:11px;color:var(--muted)}
+.fb-review-card__date{font-size:11px;color:var(--muted)}
+
+/* NO REVIEWS */
+.fb-no-reviews{text-align:center;padding:60px 20px;color:var(--muted);font-size:15px}
+.fb-no-reviews__icon{display:flex;justify-content:center;margin-bottom:16px;opacity:.5}
+
+/* FOOTER */
+.fb-footer{background:var(--ink);color:rgba(255,255,255,.4);text-align:center;padding:36px 20px}
+.fb-footer__brand{font-family:var(--font-display);font-size:18px;color:var(--gold-light);margin-bottom:6px}
+.fb-footer__copy{font-size:12px;letter-spacing:.05em}
+
+@@media(max-width:900px){
+    .fb-main{grid-template-columns:1fr;padding:28px 20px 40px}
+    .fb-nav{padding:16px 20px}
+    .fb-hero{padding:16px 20px 0}
+    .fb-row{grid-template-columns:1fr}
+    .fb-reviews-list{max-height:none}
+}
+@@media(max-width:480px){
+    .fb-card{padding:24px 18px}
+    .fb-hero__title{font-size:36px}
+}
+</style>
+
+<script>
+/* STAR RATING */
+const labels = ['', 'Poor', 'Fair', 'Good', 'Very Good', 'Excellent'];
+let currentRating = 0;
+
+function setRating(val) {
+    currentRating = val;
+    document.getElementById('ratingInput').value = val;
+    document.getElementById('ratingLabel').textContent = labels[val];
+    document.querySelectorAll('.fb-star').forEach((s, i) => {
+        s.classList.toggle('active', i < val);
+        s.classList.remove('hover');
+    });
+}
+
+document.querySelectorAll('.fb-star').forEach((star, idx) => {
+    star.addEventListener('mouseenter', () => {
+        document.querySelectorAll('.fb-star').forEach((s, i) => {
+            s.classList.toggle('hover', i <= idx);
+            s.classList.remove('active');
+        });
+        document.getElementById('ratingLabel').textContent = labels[idx + 1];
+    });
+    star.addEventListener('mouseleave', () => {
+        document.querySelectorAll('.fb-star').forEach(s => s.classList.remove('hover'));
+        setRating(currentRating);
+    });
+});
+
+/* CHAR COUNT */
+function updateCount(el) {
+    document.getElementById('charCount').textContent = el.value.length;
+}
+
+/* SUBMIT */
+document.getElementById('feedbackForm')?.addEventListener('submit', function (e) {
+    if (currentRating === 0) {
+        e.preventDefault();
+        document.getElementById('ratingLabel').textContent = '⚠ Please select a rating';
+        document.getElementById('ratingLabel').style.color = 'var(--danger)';
+        return;
+    }
+    const btn = document.getElementById('submitBtn');
+    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> Submitting…';
+    btn.disabled = true;
+    btn.style.opacity = '0.7';
+});
+</script>

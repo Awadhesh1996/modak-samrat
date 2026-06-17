@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets\\MyWebsite.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\bootstrap.min.css"
+    },
+    {
       "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
@@ -13,20 +17,164 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\fonts\\CormorantGaramond-LightItalic.ttf",
+      "PackagePath": "staticwebassets\\fonts\\CormorantGaramond-LightItalic.ttf"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\fonts\\CormorantGaramond-MediumItalic.ttf",
+      "PackagePath": "staticwebassets\\fonts\\CormorantGaramond-MediumItalic.ttf"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\fonts\\DMSans-Light.ttf",
+      "PackagePath": "staticwebassets\\fonts\\DMSans-Light.ttf"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\fonts\\DMSans-Medium.ttf",
+      "PackagePath": "staticwebassets\\fonts\\DMSans-Medium.ttf"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\fonts\\DMSans-Regular.ttf",
+      "PackagePath": "staticwebassets\\fonts\\DMSans-Regular.ttf"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\fonts\\PlayfairDisplay-Black.ttf",
+      "PackagePath": "staticwebassets\\fonts\\PlayfairDisplay-Black.ttf"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\fonts\\PlayfairDisplay-Bold.ttf",
+      "PackagePath": "staticwebassets\\fonts\\PlayfairDisplay-Bold.ttf"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\fonts\\PlayfairDisplay-Italic.ttf",
+      "PackagePath": "staticwebassets\\fonts\\PlayfairDisplay-Italic.ttf"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\fonts\\PlayfairDisplay-Regular.ttf",
+      "PackagePath": "staticwebassets\\fonts\\PlayfairDisplay-Regular.ttf"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\fonts\\Playfair_Display.zip",
+      "PackagePath": "staticwebassets\\fonts\\Playfair_Display.zip"
+    },
+    {
       "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\images\\006828d3-88ff-498e-9fa8-4565f146e6f7.jfif",
       "PackagePath": "staticwebassets\\images\\006828d3-88ff-498e-9fa8-4565f146e6f7.jfif"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\images\\04c8957d-026b-4f46-977c-913f23436940.png",
+      "PackagePath": "staticwebassets\\images\\04c8957d-026b-4f46-977c-913f23436940.png"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\images\\19a5d669-13ed-4c86-a1ad-f503b28907b1.png",
+      "PackagePath": "staticwebassets\\images\\19a5d669-13ed-4c86-a1ad-f503b28907b1.png"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\images\\202e3af4-c890-44b3-b0cb-1cf524645c84.png",
+      "PackagePath": "staticwebassets\\images\\202e3af4-c890-44b3-b0cb-1cf524645c84.png"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\images\\3b3028a0-07a3-48df-8495-77d6bad34fa0.png",
+      "PackagePath": "staticwebassets\\images\\3b3028a0-07a3-48df-8495-77d6bad34fa0.png"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\images\\3ea37403-28ff-46a3-8ad3-b0d7bfe9314a.png",
+      "PackagePath": "staticwebassets\\images\\3ea37403-28ff-46a3-8ad3-b0d7bfe9314a.png"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\images\\3fe84061-db1e-414d-8d51-7365190cafd9.png",
+      "PackagePath": "staticwebassets\\images\\3fe84061-db1e-414d-8d51-7365190cafd9.png"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\images\\422cf9bb-2721-4c65-8104-0d1236f9cf0d.png",
+      "PackagePath": "staticwebassets\\images\\422cf9bb-2721-4c65-8104-0d1236f9cf0d.png"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\images\\433c5f33-9738-4dba-bba6-2c818f374b23.png",
+      "PackagePath": "staticwebassets\\images\\433c5f33-9738-4dba-bba6-2c818f374b23.png"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\images\\4de146df-5c32-4892-956a-6238314f9fdf.png",
+      "PackagePath": "staticwebassets\\images\\4de146df-5c32-4892-956a-6238314f9fdf.png"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\images\\521c36c7-7d74-4eb0-960b-f303ad48383f.png",
+      "PackagePath": "staticwebassets\\images\\521c36c7-7d74-4eb0-960b-f303ad48383f.png"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\images\\635aefdb-1c4e-4d03-90c2-a699011e4dca.png",
+      "PackagePath": "staticwebassets\\images\\635aefdb-1c4e-4d03-90c2-a699011e4dca.png"
     },
     {
       "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\images\\66d5fa5e-7096-4bab-aa0b-25444efe523a.jfif",
       "PackagePath": "staticwebassets\\images\\66d5fa5e-7096-4bab-aa0b-25444efe523a.jfif"
     },
     {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\images\\6ca4779b-4354-442f-a8b7-60c3f88ea0f4.png",
+      "PackagePath": "staticwebassets\\images\\6ca4779b-4354-442f-a8b7-60c3f88ea0f4.png"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\images\\737a3407-e4a9-46d1-9864-77b779bbbae7.png",
+      "PackagePath": "staticwebassets\\images\\737a3407-e4a9-46d1-9864-77b779bbbae7.png"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\images\\80dd9d03-f4ed-4754-87f8-e8e862c49df2.png",
+      "PackagePath": "staticwebassets\\images\\80dd9d03-f4ed-4754-87f8-e8e862c49df2.png"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\images\\8b881284-e8d1-49cf-baa4-866ce529aea3.png",
+      "PackagePath": "staticwebassets\\images\\8b881284-e8d1-49cf-baa4-866ce529aea3.png"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\images\\8c3b15b1-63ea-4f54-8539-bd0d20174cc5.png",
+      "PackagePath": "staticwebassets\\images\\8c3b15b1-63ea-4f54-8539-bd0d20174cc5.png"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\images\\90705b15-69d6-4693-a569-297ec60e133b.png",
+      "PackagePath": "staticwebassets\\images\\90705b15-69d6-4693-a569-297ec60e133b.png"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\images\\9c8678fe-6cbe-41cc-b3db-6032106a8527.png",
+      "PackagePath": "staticwebassets\\images\\9c8678fe-6cbe-41cc-b3db-6032106a8527.png"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\images\\9fe0999d-5c72-427f-acf7-ef4a4b618c23.png",
+      "PackagePath": "staticwebassets\\images\\9fe0999d-5c72-427f-acf7-ef4a4b618c23.png"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\images\\ade33e02-0b01-4605-b5e4-f8ebb981e53b.png",
+      "PackagePath": "staticwebassets\\images\\ade33e02-0b01-4605-b5e4-f8ebb981e53b.png"
+    },
+    {
       "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\images\\banner.png",
       "PackagePath": "staticwebassets\\images\\banner.png"
     },
     {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\images\\bc59bca2-6ab0-4181-bb19-ab20d219cc02.png",
+      "PackagePath": "staticwebassets\\images\\bc59bca2-6ab0-4181-bb19-ab20d219cc02.png"
+    },
+    {
       "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\images\\e2657bec-b0aa-468b-8d1f-6291d27eb101.jfif",
       "PackagePath": "staticwebassets\\images\\e2657bec-b0aa-468b-8d1f-6291d27eb101.jfif"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\images\\e9ce3271-09be-42ab-b0d3-0802c07b6f5c.png",
+      "PackagePath": "staticwebassets\\images\\e9ce3271-09be-42ab-b0d3-0802c07b6f5c.png"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\images\\ee88802c-6559-4c7f-81ae-391b924c86b6.png",
+      "PackagePath": "staticwebassets\\images\\ee88802c-6559-4c7f-81ae-391b924c86b6.png"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\images\\fa3d668c-bfdb-4c64-9216-367dd5f99e9e.png",
+      "PackagePath": "staticwebassets\\images\\fa3d668c-bfdb-4c64-9216-367dd5f99e9e.png"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\images\\festive\\festive_639158050506992874.png",
+      "PackagePath": "staticwebassets\\images\\festive\\festive_639158050506992874.png"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\images\\modak.png",
+      "PackagePath": "staticwebassets\\images\\modak.png"
     },
     {
       "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\js\\site.js",

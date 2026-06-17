@@ -1,93 +1,312 @@
 @page
 @model AddModakModel
 
-<h2>Add Modak </h2>
+@{
+    ViewData["Title"] = "Add Modak – Modak Samrat Admin";
+}
 
-<form method="post" enctype="multipart/form-data">
+<div class="am-root">
 
-    <input type="text"
-           name="Name"
-           placeholder="Name"
-           required />
+    <aside class="am-sidebar">
+        <div class="am-sidebar__brand">
+            <div class="am-sidebar__logo">MS</div>
+            <div>
+                <div class="am-sidebar__name">Modak Samrat</div>
+                <div class="am-sidebar__role">Admin Panel</div>
+            </div>
+        </div>
+        <nav class="am-sidebar__nav">
+            <a href="/Admin/Dashboard" class="am-nav-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                Dashboard
+            </a>
+            <a href="/Admin/AddModak" class="am-nav-item active">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                Add Modak
+            </a>
+            <a href="/Admin/ManageSettings" class="am-nav-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>
+                Settings
+            </a>
+            <a href="/Admin/ManageFeedbacks" class="am-nav-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                Feedbacks
+            </a>
+            <a href="/" class="am-nav-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+                View Store
+            </a>
+            <form method="post" asp-page-handler="Logout" class="am-nav-item am-nav-item--danger" style="margin-top:auto; background:none; border:none; padding:0;">
+                <button type="submit" style="background:none; border:none; color:inherit; font:inherit; display:flex; align-items:center; gap:12px; width:100%; cursor:pointer; padding:12px 14px; border-radius:12px; transition:all 0.2s;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    Logout
+                </button>
+            </form>
+        </nav>
+    </aside>
 
-    <br><br>
+    <main class="am-main">
 
-    <input type="number"
-           name="Price"
-           placeholder="Price"
-           required />
+        <div class="am-topbar">
+            <div style="display: flex; align-items: flex-start; gap: 16px;">
+                <button class="am-mobile-menu-btn" id="mobileMenuBtn" type="button" aria-label="Open Menu">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                </button>
+                <div>
+                    <h1 class="am-topbar__title">Add New Modak</h1>
+                    <p class="am-topbar__sub">Fill in the details below to list a new product</p>
+                </div>
+            </div>
+            <a href="/Admin/Dashboard" class="am-back-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+                Back to Dashboard
+            </a>
+        </div>
 
-    <br><br>
+        <div class="am-card">
+            <form method="post" enctype="multipart/form-data" class="am-form" id="addForm">
 
-    <!-- CATEGORY -->
+                <div class="am-form__row">
+                    <div class="am-field">
+                        <label class="am-label">Modak Name <span class="am-req">*</span></label>
+                        <input type="text" name="Name" class="am-input" placeholder="e.g. Kaju Modak, Chocolate Modak" required>
+                        <span class="am-hint">This name will appear on the store listing</span>
+                    </div>
+                    <div class="am-field">
+                        <label class="am-label">Price (₹) <span class="am-req">*</span></label>
+                        <div class="am-input-prefix-wrap">
+                            <span class="am-input-prefix">₹</span>
+                            <input type="number" name="Price" class="am-input am-input--prefixed" placeholder="0" min="1" required>
+                        </div>
+                        <span class="am-hint">Base price per unit</span>
+                    </div>
+                </div>
 
-    <select name="CategoryId" required>
+                <div class="am-field">
+                    <label class="am-label">Unit / Pricing Label</label>
+                    <div class="am-select-wrap">
+                        <select name="Unit" class="am-select">
+                            <option value="per pc">per pc</option>
+                            <option value="per piece">per piece</option>
+                            <option value="per dozen">per dozen</option>
+                            <option value="per kg">per kg</option>
+                            <option value="per 500g">per 500g</option>
+                            <option value="per box">per box</option>
+                            <option value="per box (6 pcs)">per box (6 pcs)</option>
+                            <option value="per box (12 pcs)">per box (12 pcs)</option>
+                            <option value="per box (24 pcs)">per box (24 pcs)</option>
+                        </select>
+                        <svg class="am-select-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                    <span class="am-hint">Shown next to price on store — e.g. ₹50 per pc</span>
+                </div>
 
-        <option value="">
-            Select Category
-        </option>
+                <div class="am-field">
+                    <label class="am-label">Category <span class="am-req">*</span></label>
+                    <div class="am-select-wrap">
+                        <select name="CategoryId" class="am-select" required>
+                            <option value="">— Select a category —</option>
+                            @foreach (var category in Model.Categories)
+                            {
+                                <option value="@category.Id">@category.Name</option>
+                            }
+                        </select>
+                        <svg class="am-select-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                </div>
 
-        @foreach (var category in Model.Categories)
-        {
-            <option value="@category.Id">
-                @category.Name
-            </option>
-        }
+                <div class="am-field">
+                    <label class="am-label">Description</label>
+                    <textarea name="Description" class="am-textarea" placeholder="Describe the modak — ingredients, taste, occasion, etc." rows="4"></textarea>
+                    <span class="am-hint">A good description helps customers decide to buy</span>
+                </div>
 
-    </select>
+                <div class="am-field">
+                    <label class="am-label">Product Images <span class="am-req">*</span></label>
+                    <div class="am-dropzone" id="dropzone" onclick="document.getElementById('imageInput').click()">
+                        <input type="file" id="imageInput" name="Images" multiple accept="image/*" style="display:none">
+                        <div class="am-dropzone__icon">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                        </div>
+                        <p class="am-dropzone__title">Click to upload images</p>
+                        <p class="am-dropzone__sub">PNG, JPG, WEBP — Multiple files supported</p>
+                    </div>
+                    <div class="am-preview" id="previewContainer"></div>
+                </div>
 
-    <br><br>
+                <div class="am-form__footer">
+                    <a href="/Admin/Dashboard" class="am-btn am-btn--ghost">Cancel</a>
+                    <button type="submit" class="am-btn am-btn--primary" id="submitBtn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v14a2 2 0 01-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/><polyline points="7,3 7,8 15,8"/></svg>
+                        Save Modak
+                    </button>
+                </div>
 
-    <textarea name="Description"
-              placeholder="Description"></textarea>
+            </form>
+        </div>
 
-    <br><br>
+    </main>
+</div>
 
-    <input type="file"
-           id="imageInput"
-           name="Images"
-           multiple />
+<style>
+:root{--gold:#c9933a;--gold-light:#e8b96a;--gold-dim:#7a5520;--ink:#1a1208;--bg:#f8f4ef;--card:#ffffff;--text:#2d1f0e;--muted:#8b7355;--border:rgba(201,147,58,.18);--danger:#e63946;--font-display:'Playfair Display',Georgia,serif;--font-body:'DM Sans',sans-serif;--shadow:0 4px 24px rgba(0,0,0,.08);--radius:16px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);font-family:var(--font-body);color:var(--text);min-height:100vh}
+.am-root{display:flex;min-height:100vh}
 
-    <br><br>
+.am-sidebar{width:240px;background:var(--ink);display:flex;flex-direction:column;padding:28px 0;flex-shrink:0;position:sticky;top:0;height:100vh}
+.am-sidebar__brand{display:flex;align-items:center;gap:12px;padding:0 24px 32px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:16px}
+.am-sidebar__logo{width:40px;height:40px;background:linear-gradient(135deg,var(--gold-dim),var(--gold));border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:16px;font-weight:700;color:#fff;flex-shrink:0}
+.am-sidebar__name{font-family:var(--font-display);font-size:14px;font-weight:700;color:var(--gold-light);line-height:1.2}
+.am-sidebar__role{font-size:10px;color:rgba(255,255,255,.35);letter-spacing:.1em;text-transform:uppercase;margin-top:2px}
+.am-sidebar__nav{display:flex;flex-direction:column;gap:4px;padding:0 12px; height:100%;}
+.am-nav-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;text-decoration:none;color:rgba(255,255,255,.55);font-size:14px;font-weight:500;transition:all .2s}
+.am-nav-item:hover{background:rgba(255,255,255,.07);color:rgba(255,255,255,.9)}
+.am-nav-item.active{background:linear-gradient(135deg,rgba(201,147,58,.2),rgba(201,147,58,.1));color:var(--gold-light);border:1px solid rgba(201,147,58,.2)}
+.am-nav-item--danger{color:rgba(230,57,70,.6);}
+.am-nav-item--danger:hover button {color:var(--danger);}
+.am-nav-item--danger:hover {background:rgba(230,57,70,.1);}
 
-    <div id="previewContainer"
-         style="display:flex;
-                gap:10px;
-                flex-wrap:wrap;">
-    </div>
+.am-main{flex:1;padding:40px 48px;overflow-y:auto}
+.am-topbar{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:32px}
+.am-topbar__title{font-family:var(--font-display);font-size:28px;font-weight:900;color:var(--text);margin-bottom:4px}
+.am-topbar__sub{font-size:14px;color:var(--muted)}
+.am-back-btn{display:flex;align-items:center;gap:8px;padding:10px 18px;border:1.5px solid var(--border);border-radius:50px;text-decoration:none;color:var(--muted);font-size:13px;font-weight:500;transition:all .2s;background:var(--card)}
+.am-back-btn:hover{border-color:var(--gold);color:var(--gold)}
+.am-card{background:var(--card);border-radius:24px;padding:40px;box-shadow:var(--shadow);border:1px solid var(--border)}
 
-    <button type="submit">
-        Save
-    </button>
+.am-form{display:flex;flex-direction:column;gap:28px}
+.am-form__row{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.am-field{display:flex;flex-direction:column;gap:8px}
+.am-label{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:var(--text);letter-spacing:.02em}
+.am-req{color:var(--danger);font-size:14px}
+.am-hint{font-size:12px;color:var(--muted)}
 
-</form>
+.am-input{padding:14px 16px;border:1.5px solid var(--border);border-radius:12px;font-size:15px;font-family:var(--font-body);color:var(--text);background:var(--bg);outline:none;transition:border-color .2s;width:100%}
+.am-input:focus{border-color:var(--gold);background:#fff}
+.am-input-prefix-wrap{position:relative}
+.am-input-prefix{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;font-weight:600;color:var(--gold);pointer-events:none}
+.am-input--prefixed{padding-left:34px}
+.am-select-wrap{position:relative}
+.am-select{width:100%;padding:14px 42px 14px 16px;border:1.5px solid var(--border);border-radius:12px;font-size:15px;font-family:var(--font-body);color:var(--text);background:var(--bg);outline:none;appearance:none;transition:border-color .2s;cursor:pointer}
+.am-select:focus{border-color:var(--gold);background:#fff}
+.am-select-icon{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--gold);pointer-events:none}
+.am-textarea{padding:14px 16px;border:1.5px solid var(--border);border-radius:12px;font-size:15px;font-family:var(--font-body);color:var(--text);background:var(--bg);outline:none;transition:border-color .2s;resize:vertical;min-height:110px;}
+.am-textarea:focus{border-color:var(--gold);background:#fff}
 
-<script id="p7fqaz">
-    const input = document.getElementById("imageInput");
-    const preview = document.getElementById("previewContainer");
+.am-dropzone{border:2px dashed var(--border);border-radius:16px;padding:40px 24px;text-align:center;cursor:pointer;transition:all .25s;background:var(--bg)}
+.am-dropzone:hover{border-color:var(--gold);background:rgba(201,147,58,.04)}
+.am-dropzone__icon{display:flex;justify-content:center;margin-bottom:16px;color:var(--gold);opacity:.7}
+.am-dropzone__title{font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px}
+.am-dropzone__sub{font-size:13px;color:var(--muted)}
+.am-preview{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px}
+.am-preview-item{position:relative;width:100px;height:100px;border-radius:12px;overflow:hidden;border:2px solid var(--border);box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.am-preview-item img{width:100%;height:100%;object-fit:cover;display:block}
+.am-preview-item__remove{position:absolute;top:4px;right:4px;background:rgba(0,0,0,.6);border:none;border-radius:50%;width:22px;height:22px;color:#fff;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.am-preview-item__remove:hover{background:var(--danger)}
+.am-preview-item__num{position:absolute;bottom:4px;left:4px;background:rgba(201,147,58,.85);color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:50px}
 
-    input.addEventListener("change", function () {
-        preview.innerHTML = ""; // clear old preview
+.am-form__footer{display:flex;align-items:center;justify-content:flex-end;gap:14px;padding-top:8px;border-top:1px solid var(--border)}
+.am-btn{display:flex;align-items:center;gap:8px;padding:14px 28px;border-radius:14px;font-size:15px;font-weight:600;font-family:var(--font-body);cursor:pointer;text-decoration:none;transition:all .25s;border:none}
+.am-btn--ghost{background:none;border:1.5px solid var(--border);color:var(--muted)}
+.am-btn--ghost:hover{border-color:var(--gold);color:var(--gold)}
+.am-btn--primary{background:linear-gradient(135deg,var(--ink),#3d2410);color:#fff;box-shadow:0 4px 20px rgba(26,18,8,.25)}
+.am-btn--primary:hover{background:linear-gradient(135deg,#2d1a05,var(--gold-dim));transform:translateY(-1px);box-shadow:0 8px 28px rgba(26,18,8,.35)}
 
-        const files = input.files;
+.am-mobile-menu-btn { display: none; background: none; border: none; color: var(--text); cursor: pointer; padding: 4px; margin-top: 4px; }
+.am-sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 40; backdrop-filter: blur(2px); }
 
-        for (let i = 0; i < files.length; i++) {
-            const file = files[i];
+@@media(max-width:900px){
+    .am-mobile-menu-btn { display: block; }
+    .am-main { padding: 24px 20px; }
+    .am-form__row{grid-template-columns:1fr}
+    .am-card{padding:24px}
+    .am-sidebar { position: fixed; left: -260px; top: 0; bottom: 0; z-index: 50; transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 4px 0 24px rgba(0,0,0,0.2); }
+    .am-sidebar.is-open { left: 0; }
+    .am-sidebar-overlay.is-active { display: block; }
+}
+</style>
 
-            if (file && file.type.startsWith("image/")) {
-                const reader = new FileReader();
+<script>
+// Image preview logic
+const input = document.getElementById('imageInput');
+const preview = document.getElementById('previewContainer');
+const dropzone = document.getElementById('dropzone');
+let selectedFiles = [];
 
-                reader.onload = function (e) {
-                    const img = document.createElement("img");
-                    img.src = e.target.result;
-                    img.width = 120;
-                    img.style.border = "1px solid #ccc";
-                    img.style.padding = "5px";
-                    preview.appendChild(img);
-                };
+input.addEventListener('change', function(){
+    selectedFiles = [...this.files];
+    renderPreviews();
+});
 
-                reader.readAsDataURL(file);
-            }
-        }
+dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.style.borderColor = 'var(--gold)'; dropzone.style.background = 'rgba(201,147,58,.06)'; });
+dropzone.addEventListener('dragleave', () => { dropzone.style.borderColor = ''; dropzone.style.background = ''; });
+dropzone.addEventListener('drop', e => {
+    e.preventDefault();
+    dropzone.style.borderColor = '';
+    dropzone.style.background = '';
+    selectedFiles = [...e.dataTransfer.files].filter(f => f.type.startsWith('image/'));
+    const dt = new DataTransfer();
+    selectedFiles.forEach(f => dt.items.add(f));
+    input.files = dt.files;
+    renderPreviews();
+});
+
+function renderPreviews() {
+    preview.innerHTML = '';
+    selectedFiles.forEach((file, i) => {
+        if (!file.type.startsWith('image/')) return;
+        const reader = new FileReader();
+        reader.onload = e => {
+            const wrap = document.createElement('div');
+            wrap.className = 'am-preview-item';
+            wrap.innerHTML = `
+                <img src="${e.target.result}" alt="Preview ${i+1}">
+                <button type="button" class="am-preview-item__remove" onclick="removeFile(${i})" title="Remove">&#10005;</button>
+                <span class="am-preview-item__num">${i+1}</span>
+            `;
+            preview.appendChild(wrap);
+        };
+        reader.readAsDataURL(file);
     });
+}
+
+function removeFile(index) {
+    selectedFiles.splice(index, 1);
+    const dt = new DataTransfer();
+    selectedFiles.forEach(f => dt.items.add(f));
+    input.files = dt.files;
+    renderPreviews();
+}
+
+document.getElementById('addForm').addEventListener('submit', function(){
+    const btn = document.getElementById('submitBtn');
+    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> Saving…';
+    btn.disabled = true;
+    btn.style.opacity = '0.7';
+});
+
+// Mobile Sidebar Logic
+document.addEventListener('DOMContentLoaded', () => {
+    const menuBtn = document.getElementById('mobileMenuBtn');
+    const sidebar = document.querySelector('.am-sidebar');
+    
+    if (menuBtn && sidebar) {
+        const overlay = document.createElement('div');
+        overlay.className = 'am-sidebar-overlay';
+        document.body.appendChild(overlay);
+
+        menuBtn.addEventListener('click', () => {
+            sidebar.classList.add('is-open');
+            overlay.classList.add('is-active');
+            document.body.style.overflow = 'hidden'; 
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('is-open');
+            overlay.classList.remove('is-active');
+            document.body.style.overflow = '';
+        });
+    }
+});
 </script>

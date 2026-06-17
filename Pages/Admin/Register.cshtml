@@ -1,18 +1,147 @@
 @page
 @model RegisterModel
 
-<h2>Admin Registration</h2>
+@{
+    ViewData["Title"] = "Admin Registration – Modak Samrat";
+}
 
-<form method="post">
-    <input type="text" name="Name" placeholder="Full Name" required /><br><br>
+<div class="lg-root">
 
-    <input type="text" name="Phone" placeholder="Phone Number" /><br><br>
+    <div class="lg-left">
+        <div class="lg-left__glow"></div>
+        <div class="lg-left__content">
+            <div class="lg-left__logo">
+                <div class="lg-left__logo-circle">MS</div>
+            </div>
+            <h1 class="lg-left__title">
+                Modak<br>
+                <em>Samrat</em>
+            </h1>
+            <p class="lg-left__sub">The King of Sweets</p>
 
-    <input type="text" name="Username" placeholder="Username" required /><br><br>
+            <div class="lg-left__divider">
+                <div class="lg-left__divider-line"></div>
+                <span>✦</span>
+                <div class="lg-left__divider-line"></div>
+            </div>
 
-    <input type="password" name="Password" placeholder="Password" required /><br><br>
+            <div class="lg-features">
+                <div class="lg-feature">
+                    <span class="lg-feature__icon">👑</span>
+                    <div>
+                        <div class="lg-feature__title">Join the Royal Kitchen</div>
+                        <div class="lg-feature__sub">Register to manage premium sweets</div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <button type="submit">Register</button>
-</form>
+        <div class="lg-left__footer">© 2025 Modak Samrat. All rights reserved.</div>
+    </div>
 
-<p>@Model.Message</p>
+    <div class="lg-right">
+        <div class="lg-form-wrap">
+
+            <div class="lg-form-head">
+                <h2 class="lg-form-title">Create Account</h2>
+                <p class="lg-form-sub">Register as a new administrator</p>
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.Message))
+            {
+                <div class="lg-alert @(Model.Message.Contains("Successfully") ? "lg-alert--success" : "lg-alert--error")">
+                    @Model.Message
+                </div>
+            }
+
+            <form method="post" class="lg-form" id="registerForm">
+
+                <div class="lg-field">
+                    <label class="lg-label">Full Name <span style="color:var(--danger)">*</span></label>
+                    <input type="text" name="Name" class="lg-input" placeholder="e.g. John Doe" required>
+                </div>
+
+                <div class="lg-field">
+                    <label class="lg-label">Phone Number</label>
+                    <input type="text" name="Phone" class="lg-input" placeholder="e.g. +91 9876543210">
+                </div>
+
+                <div class="lg-field">
+                    <label class="lg-label">Username <span style="color:var(--danger)">*</span></label>
+                    <input type="text" name="Username" class="lg-input" placeholder="Choose a unique username" required>
+                </div>
+
+                <div class="lg-field">
+                    <label class="lg-label">Password <span style="color:var(--danger)">*</span></label>
+                    <input type="password" name="Password" class="lg-input" placeholder="Create a strong password" required>
+                </div>
+
+                <button type="submit" class="lg-submit" id="submitBtn">
+                    <span id="submitText">Register</span>
+                    <svg id="submitArrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+
+            </form>
+
+            <div class="lg-register-link">
+                Already have an account? <a href="/Admin/Login">Sign In</a>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<style>
+/* Reusing your exact Login CSS variables and layout */
+:root{--gold:#c9933a;--gold-light:#e8b96a;--gold-dim:#7a5520;--ink:#1a1208;--cream:#fdf6ec;--card:#ffffff;--text:#2d1f0e;--muted:#8b7355;--border:rgba(201,147,58,.2);--danger:#e63946;--font-display:'Playfair Display',Georgia,serif;--font-body:'DM Sans',sans-serif;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-body);min-height:100vh}
+.lg-root{display:flex;min-height:100vh}
+.lg-left{width:440px;flex-shrink:0;background:linear-gradient(160deg,#1a1208 0%,#2d1a05 50%,#1a1208 100%);position:relative;overflow:hidden;display:flex;flex-direction:column;padding:48px 44px;}
+.lg-left__glow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 70% 50% at 20% 20%,rgba(201,147,58,.2) 0%,transparent 70%),radial-gradient(ellipse 50% 60% at 80% 80%,rgba(201,147,58,.12) 0%,transparent 70%);}
+.lg-left__content{flex:1;position:relative;z-index:1}
+.lg-left__logo{margin-bottom:28px}
+.lg-left__logo-circle{width:52px;height:52px;background:linear-gradient(135deg,var(--gold-dim),var(--gold));border-radius:16px;font-family:var(--font-display);font-size:20px;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(201,147,58,.35);}
+.lg-left__title{font-family:var(--font-display);font-size:48px;font-weight:900;color:#fff;line-height:1;margin-bottom:12px;}
+.lg-left__title em{font-style:italic;font-weight:400;font-size:1.05em;background:linear-gradient(90deg,var(--gold-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.lg-left__sub{font-size:14px;color:rgba(255,255,255,.45);letter-spacing:.1em;text-transform:uppercase;margin-bottom:36px}
+.lg-left__divider{display:flex;align-items:center;gap:14px;margin-bottom:36px;color:rgba(201,147,58,.5);font-size:12px}
+.lg-left__divider-line{flex:1;height:1px;background:rgba(201,147,58,.2)}
+.lg-features{display:flex;flex-direction:column;gap:20px}
+.lg-feature{display:flex;align-items:flex-start;gap:14px}
+.lg-feature__icon{font-size:22px;flex-shrink:0;margin-top:2px}
+.lg-feature__title{font-size:14px;font-weight:600;color:rgba(255,255,255,.85);margin-bottom:2px}
+.lg-feature__sub{font-size:12px;color:rgba(255,255,255,.4)}
+.lg-left__footer{font-size:11px;color:rgba(255,255,255,.25);letter-spacing:.05em;position:relative;z-index:1}
+.lg-right{flex:1;background:var(--cream);display:flex;align-items:center;justify-content:center;padding:40px}
+.lg-form-wrap{width:100%;max-width:400px}
+.lg-form-head{margin-bottom:36px}
+.lg-form-title{font-family:var(--font-display);font-size:32px;font-weight:900;color:var(--text);margin-bottom:8px}
+.lg-form-sub{font-size:14px;color:var(--muted)}
+.lg-alert{display:flex;align-items:center;gap:10px;padding:14px 16px;border-radius:12px;font-size:14px;margin-bottom:20px}
+.lg-alert--error{background:rgba(230,57,70,.08);border:1px solid rgba(230,57,70,.25);color:var(--danger)}
+.lg-alert--success{background:rgba(37,160,102,.08);border:1px solid rgba(37,160,102,.25);color:#1e6b4a}
+.lg-form{display:flex;flex-direction:column;gap:20px}
+.lg-field{display:flex;flex-direction:column;gap:8px}
+.lg-label{font-size:13px;font-weight:600;color:var(--text)}
+.lg-input{width:100%;padding:15px 16px;border:1.5px solid var(--border);border-radius:12px;font-size:15px;font-family:var(--font-body);color:var(--text);background:#fff;outline:none;transition:border-color .2s,box-shadow .2s;}
+.lg-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,147,58,.12)}
+.lg-input::placeholder{color:#c4b09a}
+.lg-submit{width:100%;padding:16px;background:linear-gradient(135deg,var(--ink),#3d2410);color:#fff;border:none;border-radius:14px;font-size:16px;font-weight:600;font-family:var(--font-body);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:all .3s;box-shadow:0 6px 24px rgba(26,18,8,.3);margin-top:8px;}
+.lg-submit:hover{background:linear-gradient(135deg,#2d1a05,var(--gold-dim));transform:translateY(-1px);box-shadow:0 10px 32px rgba(26,18,8,.4)}
+.lg-register-link{text-align:center;margin-top:24px;font-size:14px;color:var(--muted)}
+.lg-register-link a{color:var(--gold);font-weight:600;text-decoration:none}
+.lg-register-link a:hover{text-decoration:underline}
+@@media(max-width:800px){.lg-root{flex-direction:column}.lg-left{width:100%;padding:36px 28px;min-height:auto}.lg-left__title{font-size:36px}.lg-features{display:none}.lg-right{padding:32px 20px}}
+</style>
+
+<script>
+document.getElementById('registerForm').addEventListener('submit', function(){
+    const btn = document.getElementById('submitBtn');
+    document.getElementById('submitText').textContent = 'Creating...';
+    document.getElementById('submitArrow').style.display = 'none';
+    btn.disabled = true;
+    btn.style.opacity = '0.7';
+});
+</script>

@@ -17,6 +17,46 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\fonts\\CormorantGaramond-LightItalic.ttf",
+      "PackagePath": "staticwebassets\\fonts\\CormorantGaramond-LightItalic.ttf"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\fonts\\CormorantGaramond-MediumItalic.ttf",
+      "PackagePath": "staticwebassets\\fonts\\CormorantGaramond-MediumItalic.ttf"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\fonts\\DMSans-Light.ttf",
+      "PackagePath": "staticwebassets\\fonts\\DMSans-Light.ttf"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\fonts\\DMSans-Medium.ttf",
+      "PackagePath": "staticwebassets\\fonts\\DMSans-Medium.ttf"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\fonts\\DMSans-Regular.ttf",
+      "PackagePath": "staticwebassets\\fonts\\DMSans-Regular.ttf"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\fonts\\PlayfairDisplay-Black.ttf",
+      "PackagePath": "staticwebassets\\fonts\\PlayfairDisplay-Black.ttf"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\fonts\\PlayfairDisplay-Bold.ttf",
+      "PackagePath": "staticwebassets\\fonts\\PlayfairDisplay-Bold.ttf"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\fonts\\PlayfairDisplay-Italic.ttf",
+      "PackagePath": "staticwebassets\\fonts\\PlayfairDisplay-Italic.ttf"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\fonts\\PlayfairDisplay-Regular.ttf",
+      "PackagePath": "staticwebassets\\fonts\\PlayfairDisplay-Regular.ttf"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\fonts\\Playfair_Display.zip",
+      "PackagePath": "staticwebassets\\fonts\\Playfair_Display.zip"
+    },
+    {
       "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\images\\006828d3-88ff-498e-9fa8-4565f146e6f7.jfif",
       "PackagePath": "staticwebassets\\images\\006828d3-88ff-498e-9fa8-4565f146e6f7.jfif"
     },
@@ -127,6 +167,10 @@
     {
       "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\images\\fa3d668c-bfdb-4c64-9216-367dd5f99e9e.png",
       "PackagePath": "staticwebassets\\images\\fa3d668c-bfdb-4c64-9216-367dd5f99e9e.png"
+    },
+    {
+      "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\images\\festive\\festive_639158050506992874.png",
+      "PackagePath": "staticwebassets\\images\\festive\\festive_639158050506992874.png"
     },
     {
       "Id": "C:\\Users\\cs\\MyWebsite\\wwwroot\\images\\modak.png",

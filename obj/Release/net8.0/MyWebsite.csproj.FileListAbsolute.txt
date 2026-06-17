@@ -138,3 +138,8 @@ C:\Users\cs\MyWebsite\bin\Release\net8.0\publish\publish\appsettings.json
 C:\Users\cs\MyWebsite\bin\Release\net8.0\publish\publish\MyWebsite.deps.json
 C:\Users\cs\MyWebsite\bin\Release\net8.0\publish\publish\MyWebsite.runtimeconfig.json
 C:\Users\cs\MyWebsite\obj\Release\net8.0\MyWebsite.sourcelink.json
+C:\Users\cs\MyWebsite\bin\Release\net8.0\publish\publish\publish\web.config
+C:\Users\cs\MyWebsite\bin\Release\net8.0\publish\publish\publish\appsettings.Development.json
+C:\Users\cs\MyWebsite\bin\Release\net8.0\publish\publish\publish\appsettings.json
+C:\Users\cs\MyWebsite\bin\Release\net8.0\publish\publish\publish\MyWebsite.deps.json
+C:\Users\cs\MyWebsite\bin\Release\net8.0\publish\publish\publish\MyWebsite.runtimeconfig.json
